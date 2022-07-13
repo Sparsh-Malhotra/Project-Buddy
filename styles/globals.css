@@ -1,6 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "ClashDisplay-Semibold";
+  src: url("/fonts/ClashDisplay-Semibold.ttf") format("ttf");
+  font-style: normal;
+  font-display: swap;
+}
 
 html,
 body {
