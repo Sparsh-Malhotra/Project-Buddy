@@ -1,0 +1,12 @@
+{
+  "categories": [
+    { "id": "c1", "name": "UI/UX", "count": "235" },
+    { "id": "c2", "name": "Frontend", "count": "235" },
+    { "id": "c3", "name": "Backend", "count": "235" },
+    { "id": "c4", "name": "Machine Learning", "count": "235" },
+    { "id": "c5", "name": "Blockchain", "count": "235" },
+    { "id": "c6", "name": "Full Stack", "count": "235" },
+    { "id": "c7", "name": "AR/VR", "count": "235" },
+    { "id": "c8", "name": "Android/IOS", "count": "235" }
+  ]
+}
