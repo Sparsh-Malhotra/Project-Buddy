@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
+import { Link } from "@nextui-org/react";
 import { useState } from "react";
 import { Checkbox } from "@nextui-org/react";
 
@@ -54,7 +55,7 @@ const StyledInputBox = styled.input`
 
 const StyledCheckbox = styled.div``;
 
-const Signup = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [isChecked, setIsChecked] = useState(false);
@@ -134,8 +135,10 @@ const Signup = () => {
             Continue
           </Button>
           <div className='flex text-[#202430] font-Epilogue'>
-            Don't have an account?{" "}
-            <span className='text-Primary ml-2 font-semibold'>Sign Up</span>
+            Dont have an account?{" "}
+            <Link href='/signup'>
+              <span className='text-Primary ml-2 font-semibold'>Sign Up</span>
+            </Link>
           </div>
         </div>
       </RightContainer>
@@ -143,4 +146,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;

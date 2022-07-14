@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
+import { Link } from "@nextui-org/react";
 import { useState } from "react";
 import Button from "../../components/common/Button";
 
@@ -133,7 +134,9 @@ const Signup = () => {
           </Button>
           <div className='flex text-[#202430] font-Epilogue'>
             Already have an account?{" "}
-            <span className='text-Primary ml-2 font-semibold'>Login</span>
+            <Link href='/login'>
+              <span className='text-Primary ml-2 font-semibold'>Login</span>
+            </Link>
           </div>
         </div>
       </RightContainer>
