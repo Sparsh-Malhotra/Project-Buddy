@@ -5,8 +5,10 @@ import path from "path";
 import { Link } from "@nextui-org/react";
 import styled from "styled-components";
 import { FiSearch } from "react-icons/fi";
+import { BsArrowRight } from "react-icons/bs";
 
 import Button from "../components/common/Button";
+import CategoryCard from "../components/home/CategoryCard";
 
 import styles from "../styles/Home.module.css";
 
@@ -14,6 +16,7 @@ const OuterContainer = styled.div``;
 
 const Header = styled.div`
   background-color: #f8f8fd;
+  height: 100vh;
 `;
 
 const NavContainer = styled.nav`
@@ -62,6 +65,13 @@ const StyledInputContainer = styled.input`
 `;
 
 const HeaderRight = styled.div``;
+
+const BodyContainer = styled.div`
+  width: 80%;
+  margin: auto;
+  margin-bottom: 0.5rem;
+  margin-top: 2.5rem;
+`;
 
 const Home = (props) => {
   const { categories } = props;
@@ -166,6 +176,27 @@ const Home = (props) => {
           </HeaderRight>
         </HeaderBody>
       </Header>
+      <BodyContainer>
+        <div className='flex justify-between items-center'>
+          <p className='text-5xl text-Primary-title font-ClashDisplay font-semibold'>
+            Explore by <span className='text-Primary-highlight'>category</span>
+          </p>
+          <div className='flex justify-center items-center text-center text-Primary text-base font-Epilogue font-semibold cursor-pointer'>
+            <span className='mr-4'>Show all categories</span>
+            <BsArrowRight style={{ width: "1.5rem", height: "1.5rem" }} />
+          </div>
+        </div>
+        <div className='flex justify-evenly items-center flex-wrap'>
+          {props.categories.map((category) => (
+            <CategoryCard
+              key={category.id}
+              id={category.id}
+              name={category.name}
+              count={category.count}
+            />
+          ))}
+        </div>
+      </BodyContainer>
     </OuterContainer>
   );
 };
