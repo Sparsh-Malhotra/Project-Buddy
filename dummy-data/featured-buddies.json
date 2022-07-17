@@ -1,0 +1,68 @@
+{
+  "featuredBuddies": [
+    {
+      "id": "1",
+      "name": "Sparsh Malhotra",
+      "designation": "MERN Developer",
+      "location": "India",
+      "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean viverra sit amet neque sit amet vestibulum. Donec luctus neque felis, at porta enim aliquam quis. Vestibulum sagittis ligula sit amet mi ornare, vel pharetra nulla pretium. Curabitur facilisis, neque a pellentesque porta, purus velit suscipit sapien, sit amet porttitor risus nunc sit amet nisi. Suspendisse euismod purus et feugiat convallis.",
+      "selectedCategories": ["UI/UX", "Frontend"]
+    },
+    {
+      "id": "2",
+      "name": "Sparsh Malhotra",
+      "designation": "MERN Developer",
+      "location": "India",
+      "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean viverra sit amet neque sit amet vestibulum. Donec luctus neque felis, at porta enim aliquam quis. Vestibulum sagittis ligula sit amet mi ornare, vel pharetra nulla pretium. Curabitur facilisis, neque a pellentesque porta, purus velit suscipit sapien, sit amet porttitor risus nunc sit amet nisi. Suspendisse euismod purus et feugiat convallis.",
+      "selectedCategories": ["UI/UX", "Frontend"]
+    },
+    {
+      "id": "3",
+      "name": "Sparsh Malhotra",
+      "designation": "MERN Developer",
+      "location": "India",
+      "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean viverra sit amet neque sit amet vestibulum. Donec luctus neque felis, at porta enim aliquam quis. Vestibulum sagittis ligula sit amet mi ornare, vel pharetra nulla pretium. Curabitur facilisis, neque a pellentesque porta, purus velit suscipit sapien, sit amet porttitor risus nunc sit amet nisi. Suspendisse euismod purus et feugiat convallis.",
+      "selectedCategories": ["UI/UX", "Frontend"]
+    },
+    {
+      "id": "4",
+      "name": "Sparsh Malhotra",
+      "designation": "MERN Developer",
+      "location": "India",
+      "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean viverra sit amet neque sit amet vestibulum. Donec luctus neque felis, at porta enim aliquam quis. Vestibulum sagittis ligula sit amet mi ornare, vel pharetra nulla pretium. Curabitur facilisis, neque a pellentesque porta, purus velit suscipit sapien, sit amet porttitor risus nunc sit amet nisi. Suspendisse euismod purus et feugiat convallis.",
+      "selectedCategories": ["UI/UX", "Frontend"]
+    },
+    {
+      "id": "5",
+      "name": "Sparsh Malhotra",
+      "designation": "MERN Developer",
+      "location": "India",
+      "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean viverra sit amet neque sit amet vestibulum. Donec luctus neque felis, at porta enim aliquam quis. Vestibulum sagittis ligula sit amet mi ornare, vel pharetra nulla pretium. Curabitur facilisis, neque a pellentesque porta, purus velit suscipit sapien, sit amet porttitor risus nunc sit amet nisi. Suspendisse euismod purus et feugiat convallis.",
+      "selectedCategories": ["UI/UX", "Frontend"]
+    },
+    {
+      "id": "6",
+      "name": "Sparsh Malhotra",
+      "designation": "MERN Developer",
+      "location": "India",
+      "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean viverra sit amet neque sit amet vestibulum. Donec luctus neque felis, at porta enim aliquam quis. Vestibulum sagittis ligula sit amet mi ornare, vel pharetra nulla pretium. Curabitur facilisis, neque a pellentesque porta, purus velit suscipit sapien, sit amet porttitor risus nunc sit amet nisi. Suspendisse euismod purus et feugiat convallis.",
+      "selectedCategories": ["UI/UX", "Frontend"]
+    },
+    {
+      "id": "7",
+      "name": "Sparsh Malhotra",
+      "designation": "MERN Developer",
+      "location": "India",
+      "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean viverra sit amet neque sit amet vestibulum. Donec luctus neque felis, at porta enim aliquam quis. Vestibulum sagittis ligula sit amet mi ornare, vel pharetra nulla pretium. Curabitur facilisis, neque a pellentesque porta, purus velit suscipit sapien, sit amet porttitor risus nunc sit amet nisi. Suspendisse euismod purus et feugiat convallis.",
+      "selectedCategories": ["UI/UX", "Frontend"]
+    },
+    {
+      "id": "8",
+      "name": "Sparsh Malhotra",
+      "designation": "MERN Developer",
+      "location": "India",
+      "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean viverra sit amet neque sit amet vestibulum. Donec luctus neque felis, at porta enim aliquam quis. Vestibulum sagittis ligula sit amet mi ornare, vel pharetra nulla pretium. Curabitur facilisis, neque a pellentesque porta, purus velit suscipit sapien, sit amet porttitor risus nunc sit amet nisi. Suspendisse euismod purus et feugiat convallis.",
+      "selectedCategories": ["UI/UX", "Frontend"]
+    }
+  ]
+}

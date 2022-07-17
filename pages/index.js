@@ -9,6 +9,8 @@ import { BsArrowRight } from "react-icons/bs";
 
 import Button from "../components/common/Button";
 import CategoryCard from "../components/home/CategoryCard";
+import FeaturedBuddiesCard from "../components/home/FeaturedBuddiesCard";
+import Footer from "../components/common/Footer";
 
 import styles from "../styles/Home.module.css";
 
@@ -196,7 +198,30 @@ const Home = (props) => {
             />
           ))}
         </div>
+        <div className='flex justify-between items-center pt-[38px]'>
+          <p className='text-5xl text-Primary-title font-ClashDisplay font-semibold'>
+            Featured <span className='text-Primary-highlight'>buddies</span>
+          </p>
+          <div className='flex justify-center items-center text-center text-Primary text-base font-Epilogue font-semibold cursor-pointer'>
+            <span className='mr-4'>Show all buddies</span>
+            <BsArrowRight style={{ width: "1.5rem", height: "1.5rem" }} />
+          </div>
+        </div>
+        <div className='flex justify-evenly items-center flex-wrap'>
+          {props.featuredBuddies.map((buddy) => (
+            <FeaturedBuddiesCard
+              key={buddy.id}
+              id={buddy.id}
+              name={buddy.name}
+              designation={buddy.designation}
+              location={buddy.location}
+              about={buddy.about}
+              categories={buddy.selectedCategories}
+            />
+          ))}
+        </div>
       </BodyContainer>
+      <Footer />
     </OuterContainer>
   );
 };
@@ -206,9 +231,18 @@ export async function getStaticProps() {
   const jsonData = await fs.readFile(filePath);
   const data = JSON.parse(jsonData);
 
+  const filePath2 = path.join(
+    process.cwd(),
+    "dummy-data",
+    "featured-buddies.json"
+  );
+  const jsonData2 = await fs.readFile(filePath2);
+  const data2 = JSON.parse(jsonData2);
+
   return {
     props: {
       categories: data.categories,
+      featuredBuddies: data2.featuredBuddies,
     },
   };
 }
