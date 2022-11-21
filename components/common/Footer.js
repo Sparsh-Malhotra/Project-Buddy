@@ -23,7 +23,7 @@ const Footer = () => {
               width={32}
               height={32}
             />
-            <p className='font-RedHatDisplay font-bold text-2xl text-[#FFFFFF]'>
+            <p className='ml-2 font-RedHatDisplay font-bold text-2xl text-[#FFFFFF]'>
               ProjectBuddy
             </p>
           </div>
@@ -38,12 +38,12 @@ const Footer = () => {
           </p>
           <ul>
             <li>
-              <FooterLink href='/' className='text-[#D6DDEB]'>
+              <FooterLink href='/signup' className='text-[#D6DDEB]'>
                 Sign Up
               </FooterLink>
             </li>
             <li>
-              <FooterLink href='/'>Login</FooterLink>
+              <FooterLink href='/login'>Login</FooterLink>
             </li>
             <li>
               <FooterLink href='/'>Explore by Category</FooterLink>
