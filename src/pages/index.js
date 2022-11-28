@@ -227,12 +227,13 @@ const Home = (props) => {
 };
 
 export async function getStaticProps() {
-  const filePath = path.join(process.cwd(), "dummy-data", "categories.json");
+  const filePath = path.join(process.cwd(),"src", "dummy-data", "categories.json");
   const jsonData = await fs.readFile(filePath);
   const data = JSON.parse(jsonData);
 
   const filePath2 = path.join(
     process.cwd(),
+    "src",
     "dummy-data",
     "featured-buddies.json"
   );
