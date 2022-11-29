@@ -18,7 +18,8 @@ export function registerUser(name, email, password) {
       return response.data;
     })
     .catch((error) => {
-      console.log(error);
+      if (error.response.data && error.response.data.message === "error")
+        return error.response.data;
     });
 }
 
@@ -38,6 +39,7 @@ export function loginUser(email, password) {
       return response.data;
     })
     .catch((error) => {
-      console.log(error);
+      if (error.response.data && error.response.data.message === "error")
+        return error.response.data;
     });
 }

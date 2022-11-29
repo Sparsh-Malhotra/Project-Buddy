@@ -8,6 +8,7 @@ import { Checkbox } from "@nextui-org/react";
 import Button from "../../components/common/Button";
 import { loginUser } from "../../services/auth";
 import { login } from "../../actions/index";
+import ModalComponent from "../../components/common/modal";
 
 const OuterContainer = styled.div`
   display: flex;
@@ -61,6 +62,10 @@ const StyledCheckbox = styled.div``;
 const Login = () => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [modalDetails, setModalDetails] = useState({
+    showModal: false,
+    text: "",
+  });
   const [isChecked, setIsChecked] = useState(false);
 
   const user = useSelector((state) => state.user);
@@ -70,7 +75,11 @@ const Login = () => {
 
   const onLogin = () => {
     loginUser(email, pass)
-      .then((res) => dispatch(login(res.data.name, res.data.email, res.authToken)))
+      .then((res) => {
+        if (res.message === "error")
+          setModalDetails({ showModal: true, text: res.errorDetails });
+        else dispatch(login(res.data.name, res.data.email, res.authToken));
+      })
       .catch((err) => console.log(err));
   };
 
@@ -155,6 +164,12 @@ const Login = () => {
           </div>
         </div>
       </RightContainer>
+      {modalDetails.showModal && (
+        <ModalComponent
+          text={modalDetails.text}
+          onClose={() => setModalDetails({ showModal: false, text: "" })}
+        />
+      )}
     </OuterContainer>
   );
 };

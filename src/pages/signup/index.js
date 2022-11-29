@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Button from "../../components/common/Button";
 import { registerUser } from "../../services/auth";
 import { login } from "../../actions/index";
+import ModalComponent from "../../components/common/modal";
 
 const OuterContainer = styled.div`
   display: flex;
@@ -59,14 +60,25 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [modalDetails, setModalDetails] = useState({
+    showModal: false,
+    text: "",
+  });
 
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const onSignUp = () => {
     registerUser(name, email, pass)
-      .then((res) => dispatch(login(res.name, res.email)))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        if (res.message === "error")
+          setModalDetails({ showModal: true, text: res.errorDetails });
+        else dispatch(login(res.name, res.email));
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -155,6 +167,12 @@ const Signup = () => {
           </div>
         </div>
       </RightContainer>
+      {modalDetails.showModal && (
+        <ModalComponent
+          text={modalDetails.text}
+          onClose={() => setModalDetails({ showModal: false, text: "" })}
+        />
+      )}
     </OuterContainer>
   );
 };
