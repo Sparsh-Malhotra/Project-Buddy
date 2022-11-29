@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Button from "../../components/common/Button";
 import { registerUser } from "../../services/auth";
 import { login } from "../../actions/index";
+import { ModalComponent } from "../../components/common/modal";
 
 const OuterContainer = styled.div`
   display: flex;
@@ -63,10 +64,15 @@ const Signup = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  let errorMsg = ''
+
   const onSignUp = () => {
     registerUser(name, email, pass)
-      .then((res) => dispatch(login(res.name, res.email)))
-      .catch((err) => console.log(err));
+      .then((res) => {
+         console.log(res)
+        //  dispatch(login(res.name, res.email))
+      })
+      .catch((err) => _);
   };
 
   return (
@@ -155,6 +161,7 @@ const Signup = () => {
           </div>
         </div>
       </RightContainer>
+      <ModalComponent show={true}/>
     </OuterContainer>
   );
 };
