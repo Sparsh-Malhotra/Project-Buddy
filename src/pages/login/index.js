@@ -2,9 +2,12 @@ import styled from "styled-components";
 import Image from "next/image";
 import { Link } from "@nextui-org/react";
 import { useState } from "react";
-import { Checkbox } from "@nextui-org/react";
+import { useSelector, useDispatch } from "react-redux";
 
+import { Checkbox } from "@nextui-org/react";
 import Button from "../../components/common/Button";
+import { loginUser } from "../../services/auth";
+import { login } from "../../actions/index";
 
 const OuterContainer = styled.div`
   display: flex;
@@ -60,7 +63,16 @@ const Login = () => {
   const [pass, setPass] = useState("");
   const [isChecked, setIsChecked] = useState(false);
 
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   const toggleCheck = () => setIsChecked((prevState) => !prevState);
+
+  const onLogin = () => {
+    loginUser(email, pass)
+      .then((res) => dispatch(login(res.data.name, res.data.email, res.authToken)))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <OuterContainer>
@@ -131,6 +143,7 @@ const Login = () => {
           <Button
             bgColor='#4640DE'
             className='py-3 w-full flex justify-center items-center mb-6 font-Epilogue font-bold'
+            onClick={() => onLogin()}
           >
             Continue
           </Button>

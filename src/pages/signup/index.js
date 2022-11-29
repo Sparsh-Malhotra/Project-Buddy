@@ -2,7 +2,11 @@ import styled from "styled-components";
 import Image from "next/image";
 import { Link } from "@nextui-org/react";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import Button from "../../components/common/Button";
+import { registerUser } from "../../services/auth";
+import { login } from "../../actions/index";
 
 const OuterContainer = styled.div`
   display: flex;
@@ -55,6 +59,16 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const onSignUp = () => {
+    registerUser(name, email, pass)
+      .then((res) => dispatch(login(res.name, res.email)))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <OuterContainer>
       <LeftContainer>
@@ -129,6 +143,7 @@ const Signup = () => {
           <Button
             bgColor='#4640DE'
             className='py-3 w-full flex justify-center items-center mb-6 font-Epilogue font-bold'
+            onClick={() => onSignUp()}
           >
             Continue
           </Button>

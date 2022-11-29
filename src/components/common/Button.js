@@ -18,6 +18,7 @@ const Button = (props) => {
       bgColor={props.bgColor}
       borderColor={props.borderColor}
       className={props.className}
+      onClick={() => props.onClick()}
     >
       {props.children}
     </OuterContainer>

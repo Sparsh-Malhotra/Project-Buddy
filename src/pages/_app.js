@@ -1,12 +1,16 @@
 import "../styles/globals.css";
 import { NextUIProvider } from "@nextui-org/react";
+import { wrapper, store } from "../store/index";
+import { Provider } from "react-redux";
 
 function MyApp({ Component, pageProps }) {
   return (
     <NextUIProvider>
-      <Component {...pageProps} />
+      <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
     </NextUIProvider>
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);
