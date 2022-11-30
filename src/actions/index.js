@@ -8,3 +8,9 @@ export function login(name, email, authToken) {
     },
   };
 }
+
+export function logout() {
+  return {
+    type: "LOGOUT",
+  };
+}

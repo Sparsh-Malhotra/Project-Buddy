@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const OuterContainer = styled.button`
   background-color: ${(props) =>
@@ -18,9 +19,19 @@ const Button = (props) => {
       bgColor={props.bgColor}
       borderColor={props.borderColor}
       className={props.className}
-      onClick={() => (props.onClick ? props.onClick() : none)}
+      onClick={(e) => (props.onClick ? props.onClick() : e.stopPropagation())}
     >
-      {props.children}
+      {props.loading ? (
+        <ClipLoader
+          color={"#ffffff"}
+          loading={props.loading}
+          size={24}
+          aria-label='Loading Spinner'
+          data-testid='loader'
+        />
+      ) : (
+        props.children
+      )}
     </OuterContainer>
   );
 };

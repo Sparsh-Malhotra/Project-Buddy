@@ -1,14 +1,16 @@
 import "../styles/globals.css";
 import { NextUIProvider } from "@nextui-org/react";
-import { wrapper, store } from "../store/index";
-import { Provider } from "react-redux";
+import { store, wrapper } from "../store/index";
+import { useStore } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
 function MyApp({ Component, pageProps }) {
+  const store = useStore((state) => state);
   return (
     <NextUIProvider>
-      <Provider store={store}>
+      <PersistGate persistor={store.__persistor}>
         <Component {...pageProps} />
-      </Provider>
+      </PersistGate>
     </NextUIProvider>
   );
 }

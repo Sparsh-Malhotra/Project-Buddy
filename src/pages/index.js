@@ -3,6 +3,9 @@ import Image from "next/image";
 import fs from "fs/promises";
 import path from "path";
 import { Link } from "@nextui-org/react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { logout } from "../actions/index";
 import styled from "styled-components";
 import { FiSearch } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
@@ -77,7 +80,9 @@ const BodyContainer = styled.div`
 
 const Home = (props) => {
   const { categories } = props;
-  //   console.log(categories);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   return (
     <OuterContainer>
       <Header>
@@ -93,24 +98,44 @@ const Home = (props) => {
               <p className='ml-2 font-RedHatDisplay text-title'>ProjectBuddy</p>
             </div>
             <div className='flex items-center justify-between flex-1 pt-[0.875rem]'>
-              <Link href='/login'>
-                <Button
-                  bgColor='#F8F8FD'
-                  color='#4640DE'
-                  className='font-Epilogue font-bold py-2 px-6'
-                >
-                  Login
-                </Button>
-              </Link>
-              <Seperator className='mx-4 my-4 ml-0'></Seperator>
-              <Link href='/signup'>
-                <Button
-                  bgColor='#4640DE'
-                  className='font-Epilogue font-bold py-2 px-6'
-                >
-                  Sign Up
-                </Button>
-              </Link>
+              {user.authToken && user.authToken.length > 0 ? (
+                <>
+                  <p className='font-Epilogue font-bold py-2 px-6 w-full'>
+                    Hello {user.name}
+                  </p>
+                  <Button
+                    bgColor='#4640DE'
+                    className='font-Epilogue font-bold py-2 px-6'
+                    onClick={() => {
+                      dispatch(logout());
+                    //   console.log(user);
+                    }}
+                  >
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link href='/login'>
+                    <Button
+                      bgColor='#F8F8FD'
+                      color='#4640DE'
+                      className='font-Epilogue font-bold py-2 px-6'
+                    >
+                      Login
+                    </Button>
+                  </Link>
+                  <Seperator className='mx-4 my-4 ml-0'></Seperator>
+                  <Link href='/signup'>
+                    <Button
+                      bgColor='#4640DE'
+                      className='font-Epilogue font-bold py-2 px-6'
+                    >
+                      Sign Up
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </NavContainer>
@@ -227,7 +252,12 @@ const Home = (props) => {
 };
 
 export async function getStaticProps() {
-  const filePath = path.join(process.cwd(),"src", "dummy-data", "categories.json");
+  const filePath = path.join(
+    process.cwd(),
+    "src",
+    "dummy-data",
+    "categories.json"
+  );
   const jsonData = await fs.readFile(filePath);
   const data = JSON.parse(jsonData);
 

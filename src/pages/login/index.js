@@ -2,7 +2,8 @@ import styled from "styled-components";
 import Image from "next/image";
 import { Link } from "@nextui-org/react";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 import { Checkbox } from "@nextui-org/react";
 import Button from "../../components/common/Button";
@@ -67,20 +68,26 @@ const Login = () => {
     text: "",
   });
   const [isChecked, setIsChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const toggleCheck = () => setIsChecked((prevState) => !prevState);
 
   const onLogin = () => {
+    setIsLoading(true);
     loginUser(email, pass)
       .then((res) => {
         if (res.message === "error")
           setModalDetails({ showModal: true, text: res.errorDetails });
-        else dispatch(login(res.data.name, res.data.email, res.authToken));
+        else {
+          dispatch(login(res.data.name, res.data.email, res.authToken));
+            router.push("/");
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -153,6 +160,7 @@ const Login = () => {
             bgColor='#4640DE'
             className='py-3 w-full flex justify-center items-center mb-6 font-Epilogue font-bold'
             onClick={() => onLogin()}
+            loading={isLoading}
           >
             Continue
           </Button>

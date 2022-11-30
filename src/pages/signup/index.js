@@ -2,7 +2,8 @@ import styled from "styled-components";
 import Image from "next/image";
 import { Link } from "@nextui-org/react";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 import Button from "../../components/common/Button";
 import { registerUser } from "../../services/auth";
@@ -64,21 +65,27 @@ const Signup = () => {
     showModal: false,
     text: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const onSignUp = () => {
+    setIsLoading(true);
     registerUser(name, email, pass)
       .then((res) => {
         if (res.message === "error")
           setModalDetails({ showModal: true, text: res.errorDetails });
-        else dispatch(login(res.name, res.email));
+        else {
+          dispatch(login(res.name, res.email, "12345"));
+          router.push("/");
+        }
         console.log(res);
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -156,6 +163,7 @@ const Signup = () => {
             bgColor='#4640DE'
             className='py-3 w-full flex justify-center items-center mb-6 font-Epilogue font-bold'
             onClick={() => onSignUp()}
+            loading={isLoading}
           >
             Continue
           </Button>
