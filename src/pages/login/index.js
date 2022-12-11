@@ -93,7 +93,10 @@ const Login = () => {
           setModalDetails({ showModal: true, text: res.errorDetails });
         else {
           dispatch(login(res.data.name, res.data.email, res.authToken));
+<<<<<<< HEAD
           dispatch(updateAppState("LOGGED_IN"));
+=======
+>>>>>>> 7afb804 (Added One Last Step page)
           router.push("/");
         }
       })
@@ -167,6 +170,7 @@ const Login = () => {
             ></StyledInputBox>
           </FormContainer>
           <Checkbox size='sm'>Remember me</Checkbox>
+
           <Button
             bgColor='#4640DE'
             className='py-3 w-full flex justify-center items-center mb-6 font-Epilogue font-bold'
@@ -174,7 +178,9 @@ const Login = () => {
             loading={isLoading}
           >
             Continue
+            <Link href='/one-last-step'></Link>
           </Button>
+
           <div className='flex text-[#202430] font-Epilogue'>
             Dont have an account?{" "}
             <Link href='/signup'>
