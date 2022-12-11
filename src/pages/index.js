@@ -83,6 +83,8 @@ const Home = (props) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  console.log(user.authToken);
+
   return (
     <OuterContainer>
       <Header>
@@ -108,7 +110,7 @@ const Home = (props) => {
                     className='font-Epilogue font-bold py-2 px-6'
                     onClick={() => {
                       dispatch(logout());
-                    //   console.log(user);
+                      //   console.log(user);
                     }}
                   >
                     Logout

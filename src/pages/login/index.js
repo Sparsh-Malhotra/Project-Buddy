@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Link } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 
 import { Checkbox } from "@nextui-org/react";
 import Button from "../../components/common/Button";
