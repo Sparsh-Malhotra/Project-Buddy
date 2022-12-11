@@ -70,6 +70,16 @@ const Signup = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const appState = useSelector((state) => state.app.appState);
+
+  useEffect(() => {
+    if (appState === "LOGGED_IN") {
+      router.replace("/");
+    } else if (appState === "ONE_LAST_STEP") {
+      router.replace("/one-last-step");
+    }
+  }, [appState]);
+
   const onSignUp = () => {
     setIsLoading(true);
     registerUser(name, email, pass)
@@ -77,8 +87,9 @@ const Signup = () => {
         if (res.message === "error")
           setModalDetails({ showModal: true, text: res.errorDetails });
         else {
-          dispatch(login(res.name, res.email, "12345"));
-          router.push("/");
+          dispatch(login(res.name, res.email, res.authToken));
+          dispatch(updateAppState("ONE_LAST_STEP"));
+          router.push("/one-last-step");
         }
         console.log(res);
       })

@@ -22,6 +22,9 @@ module.exports = {
       BgColor: {
         DEFAULT: "#F8F8FD",
       },
+      boxCard: {
+        DEFAULT: "#D6DDEB",
+      },
     },
 
     extend: {

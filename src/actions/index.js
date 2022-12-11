@@ -14,3 +14,12 @@ export function logout() {
     type: "LOGOUT",
   };
 }
+
+export function updateAppState(state) {
+  return {
+    type: "UPDATE_APP_STATE",
+    payload: {
+      state,
+    },
+  };
+}

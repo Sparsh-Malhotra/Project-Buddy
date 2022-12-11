@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import Image from "next/image";
 import { Link } from "@nextui-org/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 
 import { Checkbox } from "@nextui-org/react";
 import Button from "../../components/common/Button";
 import { loginUser } from "../../services/auth";
-import { login } from "../../actions/index";
+import { login, updateAppState } from "../../actions/index";
 import ModalComponent from "../../components/common/modal";
 
 const OuterContainer = styled.div`
@@ -73,6 +73,16 @@ const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const appState = useSelector((state) => state.app.appState);
+
+  useEffect(() => {
+    if (appState === "LOGGED_IN") {
+      router.replace("/");
+    } else if (appState === "ONE_LAST_STEP") {
+      router.replace("/one-last-step");
+    }
+  }, [appState]);
+
   const toggleCheck = () => setIsChecked((prevState) => !prevState);
 
   const onLogin = () => {
@@ -83,7 +93,8 @@ const Login = () => {
           setModalDetails({ showModal: true, text: res.errorDetails });
         else {
           dispatch(login(res.data.name, res.data.email, res.authToken));
-            router.push("/");
+          dispatch(updateAppState("LOGGED_IN"));
+          router.push("/");
         }
       })
       .catch((err) => console.log(err))
