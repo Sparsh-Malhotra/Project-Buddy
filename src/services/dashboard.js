@@ -11,7 +11,7 @@ export function submitDetails(body, authToken) {
     })
     .then((response) => {
       console.log(response);
-      //   return response.data;
+      return response.data;
     })
     .catch((error) => {
       if (error.response.data && error.response.data.message === "error")

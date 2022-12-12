@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -32,4 +32,11 @@ a {
 
 .nextui-checkbox-label {
   margin-bottom: 22px;
+}
+
+.react-select > div {
+  padding: 0.3rem;
+  padding-bottom: 0.35rem;
+  border: 1px solid #d6ddeb;
+  border-radius: 0px;
 }

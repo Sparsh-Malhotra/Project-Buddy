@@ -1,18 +1,22 @@
 import styled from "styled-components";
 import Image from "next/image";
 import { Link } from "@nextui-org/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Select from "react-select";
+import AsyncSelect from "react-select/async";
 
 import { Checkbox } from "@nextui-org/react";
 import Button from "../../components/common/Button";
 import { loginUser } from "../../services/auth";
+import { submitDetails } from "../../services/dashboard";
 import { login } from "../../actions/index";
 import ModalComponent from "../../components/common/modal";
 
 import StepProgressBar from "react-step-progress";
 import "react-step-progress/dist/index.css";
+import states from "../../dummy-data/states";
 
 const OuterContainer = styled.div`
   display: flex;
@@ -44,7 +48,6 @@ const FormContainer = styled.div`
 `;
 
 const StyledInputBox = styled.input`
-  // width: 30vw;
   flex: 40%;
   border: 1px solid #d6ddeb;
   padding: 0.75rem 1rem;
@@ -56,17 +59,61 @@ const StyledInputBox = styled.input`
   }
 `;
 
+const StyledSelect = styled(Select)`
+  flex: 40%;
+  border: 1px solid #d6ddeb;
+  margin-bottom: 1.375rem;
+  margin-right: 1.375rem;
+  outline: none;
+  &::placeholder {
+    color: #a8adb7;
+    font-family: "Epilogue", "sans-serif";
+  }
+`;
+
+const StyledAsyncSelect = styled(AsyncSelect)`
+  flex: 40%;
+  border: 1px solid #d6ddeb;
+  margin-bottom: 1.375rem;
+  margin-right: 1.375rem;
+  outline: none;
+  &::placeholder {
+    color: #a8adb7;
+    font-family: "Epilogue", "sans-serif";
+  }
+`;
+
 const StyledCheckbox = styled.div``;
 
-const step1Content = (
-  setFirstName,
-  setLastName,
-  setAge,
-  setGender,
-  setUniversity,
-  setCourse,
-  setState
-) => {
+const genderOptions = [
+  { value: "male", label: "Male" },
+  { value: "female", label: "Female" },
+];
+
+const techStackOptions = [
+  { value: "ui/ux", label: "UI/UX" },
+  { value: "frontend", label: "Frontend" },
+  { value: "backend", label: "Backend" },
+  { value: "ml", label: "Machine Learning" },
+  { value: "blockchain", label: "Blockchain" },
+  { value: "fullstack", label: "Full Stack" },
+  { value: "ar/vr", label: "AR/VR" },
+  { value: "Android/IOS", label: "android/ios" },
+];
+
+const Step1Content = ({ onChangeHandler }) => {
+  const filterStates = (inputValue) => {
+    if (!states) return;
+    return states.filter((i) =>
+      i.label.toLowerCase().includes(inputValue.toLowerCase())
+    );
+  };
+  const loadStates = (inputValue) =>
+    new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(filterStates(inputValue));
+      }, 1000);
+    });
   return (
     <FormContainer>
       <div className='flex justify-evenly items-center flex-wrap mt-8'>
@@ -74,95 +121,91 @@ const step1Content = (
           id='firstName'
           type='text'
           placeholder='First Name*'
-          onChange={(e) => setFirstName(e.target.value)}
+          onChange={(e) => onChangeHandler("firstName", e.target.value)}
         ></StyledInputBox>
         <StyledInputBox
           id='lastName'
           type='text'
           placeholder='Last Name*'
-          onChange={(e) => setLastName(e.target.value)}
+          onChange={(e) => onChangeHandler("lastName", e.target.value)}
         ></StyledInputBox>
         <StyledInputBox
           id='age'
           type='number'
           placeholder='Age*'
-          onChange={(e) => setAge(e.target.value)}
+          onChange={(e) => onChangeHandler("age", e.target.value)}
         ></StyledInputBox>
-        <StyledInputBox
+        <StyledSelect
           id='gender'
-          type='text'
+          className='react-select'
           placeholder='Gender*'
-          onChange={(e) => setGender(e.target.value)}
-        ></StyledInputBox>
+          options={genderOptions}
+          onChange={(e) => onChangeHandler("gender", e.value)}
+        ></StyledSelect>
         <StyledInputBox
           id='university'
           type='text'
           placeholder='University*'
-          onChange={(e) => setUniversity(e.target.value)}
+          onChange={(e) => onChangeHandler("university", e.target.value)}
         ></StyledInputBox>
         <StyledInputBox
           id='course'
           type='text'
           placeholder='Course*'
-          onChange={(e) => setCourse(e.target.value)}
+          onChange={(e) => onChangeHandler("course", e.target.value)}
         ></StyledInputBox>
-        <StyledInputBox
+        <StyledAsyncSelect
           id='state'
-          type='text'
           placeholder='State*'
-          onChange={(e) => setState(e.target.value)}
-        ></StyledInputBox>
+          loadOptions={loadStates}
+          cacheOptions
+          onChange={(e) => onChangeHandler("state", e.value)}
+        ></StyledAsyncSelect>
       </div>
     </FormContainer>
   );
 };
 
-const step2Content = (
-  setTechStack,
-  setSkills,
-  setLinkedIn,
-  setTwitter,
-  setGithub,
-  setDribble
-) => {
+const Step2Content = ({ onChangeHandler }) => {
   return (
     <FormContainer>
       <div className='flex justify-evenly items-center flex-wrap mt-8'>
-        <StyledInputBox
+        <StyledSelect
           id='techStack'
-          type='text'
+          options={techStackOptions}
+          className='react-select'
           placeholder='Preferred Tech Stack*'
-          onChange={(e) => setTechStack(e.target.value)}
-        ></StyledInputBox>
+          onChange={(e) => onChangeHandler("techStack", e.value)}
+        ></StyledSelect>
         <StyledInputBox
           id='skills'
           type='text'
           placeholder='Skills*'
-          onChange={(e) => setSkills(e.target.value)}
+          onChange={(e) => onChangeHandler("skills", e.target.value)}
         ></StyledInputBox>
         <StyledInputBox
           id='linkedin'
           type='text'
           placeholder='LinkedIn Profile*'
-          onChange={(e) => setLinkedIn(e.target.value)}
+          onChange={(e) => onChangeHandler("linkedin",e.target.value)}
         ></StyledInputBox>
         <StyledInputBox
           id='github'
           type='text'
           placeholder='GitHub Profile*'
-          onChange={(e) => setGithub(e.target.value)}
+          onChange={(e) => onChangeHandler("github", e.target.value)}
         ></StyledInputBox>
         <StyledInputBox
           id='twitter'
           type='text'
           placeholder='Twitter'
-          onChange={(e) => setTwitter(e.target.value)}
+          onChange={(e) => onChangeHandler("twitter", e.target.value)}
         ></StyledInputBox>
         <StyledInputBox
           id='dribble'
           type='text'
           placeholder='Dribble'
-          onChange={(e) => setDribble(e.target.value)}
+          onChange={(e) => onChangeHandler("dribble", e.target.value)}
         ></StyledInputBox>
       </div>
     </FormContainer>
@@ -178,8 +221,8 @@ const OneLastStep = () => {
   const [course, setCourse] = useState("");
   const [state, setState] = useState("");
   const [techStack, setTechStack] = useState("");
-  const [skills, setSkills] = useState("");
-  const [linkedIn, setLinkedIn] = useState("");
+  const [skills, setSkills] = useState(null);
+  const [linkedin, setLinkedin] = useState("");
   const [github, setGithub] = useState("");
   const [twitter, setTwitter] = useState("");
   const [dribble, setDribble] = useState("");
@@ -190,9 +233,44 @@ const OneLastStep = () => {
   });
   const [isChecked, setIsChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  //   const [statesOptions, setStateOptions] = useState(null);
+
+  //   useEffect(() => {
+  //     fetchStates();
+  //   }, []);
 
   const dispatch = useDispatch();
   const router = useRouter();
+  const user = useSelector((state) => state.user);
+
+  //   const fetchStates = async () => {
+  //     var headers = new Headers();
+  //     headers.append(
+  //       "X-CSCAPI-KEY",
+  //       "ZmdLeEZCYU10WVo0WElsWXcyREdtbzlZRkh4SmhKSEdmd0J4cnNvTw=="
+  //     );
+
+  //     var requestOptions = {
+  //       method: "GET",
+  //       headers: headers,
+  //       redirect: "follow",
+  //     };
+
+  //     fetch(
+  //       "https://api.countrystatecity.in/v1/countries/IN/states",
+  //       requestOptions
+  //     )
+  //       .then((response) => response.text())
+  //       .then((result) => {
+  //         const stateList = JSON.parse(result).map((res) => {
+  //           return { value: res.name, label: res.name };
+  //         });
+  //         setStateOptions(stateList);
+  //       })
+  //       .catch((error) => console.log("error", error));
+  //   };
+
+  //   console.log(statesOptions);
 
   const toggleCheck = () => setIsChecked((prevState) => !prevState);
 
@@ -211,6 +289,72 @@ const OneLastStep = () => {
       .finally(() => setIsLoading(false));
   };
 
+  const onFormSubmit = async () => {
+    // console.log(linkedIn);
+    const body = {
+      firstName,
+      lastName,
+      age,
+      gender,
+      university,
+      course,
+      state,
+      techStack,
+      skills,
+      linkedin,
+      github,
+    };
+    const res = await submitDetails(body, user.authToken);
+    if (res.message === "Success") {
+      router.push("/user/sparsh");
+    }
+  };
+
+  const onChangeHandler = (type, payload) => {
+    switch (type) {
+      case "firstName":
+        setFirstName(payload);
+        break;
+      case "lastName":
+        setLastName(payload);
+        break;
+      case "age":
+        setAge(payload);
+        break;
+      case "gender":
+        setGender(payload);
+        break;
+      case "university":
+        setUniversity(payload);
+        break;
+      case "course":
+        setCourse(payload);
+        break;
+      case "state":
+        setState(payload);
+        break;
+      case "techStack":
+        setTechStack(payload);
+        break;
+      case "skills":
+        setSkills(payload.split(","));
+        break;
+      case "linkedin":
+        setLinkedin(payload);
+        // console.log(payload);
+        break;
+      case "github":
+        setGithub(payload);
+        break;
+      case "twitter":
+        setTwitter(payload);
+        break;
+      case "dribble":
+        setDribble(payload);
+        break;
+    }
+  };
+
   return (
     <OuterContainer>
       <LeftContainer>
@@ -225,32 +369,22 @@ const OneLastStep = () => {
           <StepProgressBar
             stepClass='step'
             startingStep={0}
-            // onSubmit={onFormSubmit}
+            onSubmit={onFormSubmit}
             steps={[
               {
                 label: "Step 1",
                 name: "step 1",
-                content: step1Content(
-                  setFirstName,
-                  setLastName,
-                  setAge,
-                  setGender,
-                  setUniversity,
-                  setCourse,
-                  setState
+                content: (
+                  <Step1Content
+                    onChangeHandler={onChangeHandler}
+                    // states={statesOptions}
+                  />
                 ),
               },
               {
                 label: "Step 2",
                 name: "step 2",
-                content: step2Content(
-                  setTechStack,
-                  setSkills,
-                  setLinkedIn,
-                  setTwitter,
-                  setGithub,
-                  setDribble
-                ),
+                content: <Step2Content onChangeHandler={onChangeHandler} />,
               },
             ]}
           />

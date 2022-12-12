@@ -93,11 +93,8 @@ const Login = () => {
           setModalDetails({ showModal: true, text: res.errorDetails });
         else {
           dispatch(login(res.data.name, res.data.email, res.authToken));
-<<<<<<< HEAD
           dispatch(updateAppState("LOGGED_IN"));
-=======
->>>>>>> 7afb804 (Added One Last Step page)
-          router.push("/");
+          router.push("/one-last-step");
         }
       })
       .catch((err) => console.log(err))
