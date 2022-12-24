@@ -1,5 +1,6 @@
 {
   "name": "projectbuddy",
+  "homepage": "https://project-buddy.live/",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -33,6 +34,7 @@
     "eslint": "8.19.0",
     "eslint-config-next": "^13.0.6",
     "postcss": "^8.4.14",
+    "redux-devtools-extension": "^2.13.9",
     "tailwindcss": "^3.1.4"
   }
 }

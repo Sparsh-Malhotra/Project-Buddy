@@ -3,8 +3,9 @@ import Image from "next/image";
 import Button from "../../components/common/Button";
 import { Link } from "@nextui-org/react";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { logout, updateAppState } from "../../actions";
 import { fetchDetails } from "../../services/dashboard";
 import GitHubCalendar from "react-github-calendar";
 import LoadingComponent from "../../components/common/LoadingComponent";
@@ -51,6 +52,8 @@ const UserProfile = () => {
   const [loading, setLoading] = useState();
 
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     fetchUserDetails();
@@ -155,7 +158,11 @@ const UserProfile = () => {
     }
   };
 
-  console.log(loading, userDetails);
+  const logoutHandler = () => {
+    dispatch(logout());
+    dispatch(updateAppState("LOGGED_OUT"));
+    router.push("/");
+  };
 
   return (
     <OuterContainer>
@@ -233,6 +240,7 @@ const UserProfile = () => {
                   color='#FF6550'
                   borderColor='#CCCCF5'
                   className='flex px-4 py-2 mt-8'
+                  onClick={() => logoutHandler()}
                 >
                   <Image
                     src='/static/images/dashboard/sidebar/logout.svg'

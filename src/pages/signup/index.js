@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
+import { updateAppState } from "../../actions/index";
 import Button from "../../components/common/Button";
 import { registerUser } from "../../services/auth";
 import { login } from "../../actions/index";
@@ -87,7 +88,7 @@ const Signup = () => {
         if (res.message === "error")
           setModalDetails({ showModal: true, text: res.errorDetails });
         else {
-          dispatch(login(res.name, res.email, res.authToken));
+          dispatch(login(res._doc.name, res._doc.email, res.authToken));
           dispatch(updateAppState("ONE_LAST_STEP"));
           router.push("/one-last-step");
         }

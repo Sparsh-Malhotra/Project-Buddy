@@ -5,7 +5,7 @@ import path from "path";
 import { Link } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { logout } from "../actions/index";
+import { logout, updateAppState } from "../actions/index";
 import styled from "styled-components";
 import { FiSearch } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
@@ -110,7 +110,7 @@ const Home = (props) => {
                     className='font-Epilogue font-bold py-2 px-6'
                     onClick={() => {
                       dispatch(logout());
-                      //   console.log(user);
+                      dispatch(updateAppState("LOGGED_OUT"));
                     }}
                   >
                     Logout

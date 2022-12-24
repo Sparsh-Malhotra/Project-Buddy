@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Link } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Checkbox } from "@nextui-org/react";
 import Button from "../../components/common/Button";
@@ -74,10 +74,12 @@ const Login = () => {
   const router = useRouter();
 
   const appState = useSelector((state) => state.app.appState);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     if (appState === "LOGGED_IN") {
-      router.replace("/");
+      const name = user.name.toLowerCase().replace(" ", "-");
+      router.push(`/user/${name}`);
     } else if (appState === "ONE_LAST_STEP") {
       router.replace("/one-last-step");
     }
@@ -94,7 +96,8 @@ const Login = () => {
         else {
           dispatch(login(res.data.name, res.data.email, res.authToken));
           dispatch(updateAppState("LOGGED_IN"));
-          router.push("/one-last-step");
+          const name = user.name.toLowerCase().replace(" ", "-");
+          router.push(`/user/${name}`);
         }
       })
       .catch((err) => console.log(err))

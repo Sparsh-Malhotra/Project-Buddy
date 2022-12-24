@@ -11,7 +11,7 @@ import { Checkbox } from "@nextui-org/react";
 import Button from "../../components/common/Button";
 import { loginUser } from "../../services/auth";
 import { submitDetails } from "../../services/dashboard";
-import { login } from "../../actions/index";
+import { updateAppState } from "../../actions/index";
 import ModalComponent from "../../components/common/modal";
 
 import StepProgressBar from "react-step-progress";
@@ -187,7 +187,7 @@ const Step2Content = ({ onChangeHandler }) => {
           id='linkedin'
           type='text'
           placeholder='LinkedIn Profile*'
-          onChange={(e) => onChangeHandler("linkedin",e.target.value)}
+          onChange={(e) => onChangeHandler("linkedin", e.target.value)}
         ></StyledInputBox>
         <StyledInputBox
           id='github'
@@ -274,23 +274,7 @@ const OneLastStep = () => {
 
   const toggleCheck = () => setIsChecked((prevState) => !prevState);
 
-  const onLogin = () => {
-    setIsLoading(true);
-    loginUser(email, pass)
-      .then((res) => {
-        if (res.message === "error")
-          setModalDetails({ showModal: true, text: res.errorDetails });
-        else {
-          dispatch(login(res.data.name, res.data.email, res.authToken));
-          router.push("/");
-        }
-      })
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
-  };
-
   const onFormSubmit = async () => {
-    // console.log(linkedIn);
     const body = {
       firstName,
       lastName,
@@ -306,7 +290,10 @@ const OneLastStep = () => {
     };
     const res = await submitDetails(body, user.authToken);
     if (res.message === "Success") {
-      router.push("/user/sparsh");
+      //   router.push("/user/sparsh");
+      dispatch(updateAppState("LOGGED_IN"));
+      const name = user.name.toLowerCase().replace(" ", "-");
+      router.push(`/user/${name}`);
     }
   };
 
