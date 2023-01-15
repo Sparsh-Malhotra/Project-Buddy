@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import fs from "fs/promises";
-import path from "path";
+import { useState, useEffect } from "react";
 import { Link } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -9,6 +8,7 @@ import { logout, updateAppState } from "../actions/index";
 import styled from "styled-components";
 import { FiSearch } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
+import { getConsole } from "../services/home";
 
 import Button from "../components/common/Button";
 import CategoryCard from "../components/home/CategoryCard";
@@ -79,11 +79,26 @@ const BodyContainer = styled.div`
 `;
 
 const Home = (props) => {
-  const { categories } = props;
+  //   const { categories } = props;
+  const [categories, setCategories] = useState(null);
+  const [featuredBuddies, setFeaturedBuddies] = useState(null);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  console.log(user.authToken);
+  useEffect(() => {
+    fetchConsoleData();
+  }, []);
+
+  const fetchConsoleData = () => {
+    getConsole()
+      .then((res) => {
+        if (res.message === "Success") {
+          setCategories(res.categoryInfo);
+          setFeaturedBuddies(res.featuredBuddies);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <OuterContainer>
@@ -216,14 +231,15 @@ const Home = (props) => {
           </div>
         </div>
         <div className='flex justify-evenly items-center flex-wrap'>
-          {props.categories.map((category) => (
-            <CategoryCard
-              key={category.id}
-              id={category.id}
-              name={category.name}
-              count={category.count}
-            />
-          ))}
+          {categories &&
+            Object.values(categories).map((category) => (
+              <CategoryCard
+                key={category.id}
+                id={category.id}
+                name={category.name}
+                count={category.count}
+              />
+            ))}
         </div>
         <div className='flex justify-between items-center pt-[38px]'>
           <p className='text-5xl text-Primary-title font-ClashDisplay font-semibold'>
@@ -235,49 +251,26 @@ const Home = (props) => {
           </div>
         </div>
         <div className='flex justify-evenly items-center flex-wrap'>
-          {props.featuredBuddies.map((buddy) => (
-            <FeaturedBuddiesCard
-              key={buddy.id}
-              id={buddy.id}
-              name={buddy.name}
-              designation={buddy.designation}
-              location={buddy.location}
-              about={buddy.about}
-              categories={buddy.selectedCategories}
-            />
-          ))}
+          {featuredBuddies &&
+            featuredBuddies.map((buddy) => (
+              <FeaturedBuddiesCard
+                key={buddy.userId}
+                id={buddy.userId}
+                name={
+                  buddy.firstName + " " + (buddy.lastName ? buddy.lastName : "")
+                }
+                // designation={buddy.designation}
+                designation='Student'
+                location={buddy.state}
+                // about={buddy.about}
+                categories={[buddy.techStack]}
+              />
+            ))}
         </div>
       </BodyContainer>
       <Footer />
     </OuterContainer>
   );
 };
-
-export async function getStaticProps() {
-  const filePath = path.join(
-    process.cwd(),
-    "src",
-    "dummy-data",
-    "categories.json"
-  );
-  const jsonData = await fs.readFile(filePath);
-  const data = JSON.parse(jsonData);
-
-  const filePath2 = path.join(
-    process.cwd(),
-    "src",
-    "dummy-data",
-    "featured-buddies.json"
-  );
-  const jsonData2 = await fs.readFile(filePath2);
-  const data2 = JSON.parse(jsonData2);
-
-  return {
-    props: {
-      categories: data.categories,
-      featuredBuddies: data2.featuredBuddies,
-    },
-  };
-}
 
 export default Home;

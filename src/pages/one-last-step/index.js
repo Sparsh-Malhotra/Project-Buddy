@@ -7,16 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import AsyncSelect from "react-select/async";
 
-import { Checkbox } from "@nextui-org/react";
-import Button from "../../components/common/Button";
-import { loginUser } from "../../services/auth";
 import { submitDetails } from "../../services/dashboard";
 import { updateAppState } from "../../actions/index";
 import ModalComponent from "../../components/common/modal";
 
 import StepProgressBar from "react-step-progress";
 import "react-step-progress/dist/index.css";
-import states from "../../dummy-data/states";
+import { getStates } from "../../services/common";
 
 const OuterContainer = styled.div`
   display: flex;
@@ -102,9 +99,29 @@ const techStackOptions = [
 ];
 
 const Step1Content = ({ onChangeHandler }) => {
+  const [statesOptions, setStateOptions] = useState(null);
+
+  useEffect(() => {
+    fetchStates();
+  }, []);
+
+  const fetchStates = () => {
+    getStates()
+      .then((res) => {
+        const data = res.map((ele) => {
+          return {
+            label: ele.name,
+            value: ele.name,
+          };
+        });
+        setStateOptions(data);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const filterStates = (inputValue) => {
-    if (!states) return;
-    return states.filter((i) =>
+    if (!statesOptions) return;
+    return statesOptions.filter((i) =>
       i.label.toLowerCase().includes(inputValue.toLowerCase())
     );
   };
@@ -114,6 +131,7 @@ const Step1Content = ({ onChangeHandler }) => {
         resolve(filterStates(inputValue));
       }, 1000);
     });
+
   return (
     <FormContainer>
       <div className='flex justify-evenly items-center flex-wrap mt-8'>
@@ -158,6 +176,7 @@ const Step1Content = ({ onChangeHandler }) => {
           id='state'
           placeholder='State*'
           loadOptions={loadStates}
+          defaultOptions={statesOptions ? statesOptions : null}
           cacheOptions
           onChange={(e) => onChangeHandler("state", e.value)}
         ></StyledAsyncSelect>
@@ -233,44 +252,6 @@ const OneLastStep = () => {
   });
   const [isChecked, setIsChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  //   const [statesOptions, setStateOptions] = useState(null);
-
-  //   useEffect(() => {
-  //     fetchStates();
-  //   }, []);
-
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const user = useSelector((state) => state.user);
-
-  //   const fetchStates = async () => {
-  //     var headers = new Headers();
-  //     headers.append(
-  //       "X-CSCAPI-KEY",
-  //       "ZmdLeEZCYU10WVo0WElsWXcyREdtbzlZRkh4SmhKSEdmd0J4cnNvTw=="
-  //     );
-
-  //     var requestOptions = {
-  //       method: "GET",
-  //       headers: headers,
-  //       redirect: "follow",
-  //     };
-
-  //     fetch(
-  //       "https://api.countrystatecity.in/v1/countries/IN/states",
-  //       requestOptions
-  //     )
-  //       .then((response) => response.text())
-  //       .then((result) => {
-  //         const stateList = JSON.parse(result).map((res) => {
-  //           return { value: res.name, label: res.name };
-  //         });
-  //         setStateOptions(stateList);
-  //       })
-  //       .catch((error) => console.log("error", error));
-  //   };
-
-  //   console.log(statesOptions);
 
   const toggleCheck = () => setIsChecked((prevState) => !prevState);
 

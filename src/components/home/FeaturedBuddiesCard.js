@@ -15,20 +15,20 @@ const CategoryContainer = styled.div`
 
 const bgColor = (category) => {
   switch (category) {
-    case "UI/UX":
+    case "ui/ux":
       return "bg-[#EB8533]/10";
 
-    case "Frontend":
+    case "frontend":
       return "bg-[#56CDAD]/10";
   }
 };
 
 const txtColor = (category) => {
   switch (category) {
-    case "UI/UX":
+    case "ui/ux":
       return "text-[#FFB836]";
 
-    case "Frontend":
+    case "frontend":
       return "text-[#56CDAD]";
   }
 };
@@ -37,7 +37,7 @@ const FeaturedBuddiesCard = (props) => {
   const { id, name, designation, location, about, categories } = props;
   return (
     <CardContainer>
-      <div className="flex justify-center mb-4">
+      <div className='flex justify-center mb-4'>
         <Image
           src='https://i.pravatar.cc/48?img=68'
           alt='avatar'
@@ -54,9 +54,9 @@ const FeaturedBuddiesCard = (props) => {
         <div className='h-1 w-1 bg-[#515B6F] rounded-[50%] mx-2'></div>
         <div>{location}</div>
       </div>
-      <div className='mt-4 font-Inter text-Primary-subtitle'>
+      {/* <div className='mt-4 font-Inter text-Primary-subtitle'>
         {about.substring(0, 24) + "........."}
-      </div>
+      </div> */}
       <div className='mt-4 flex'>
         {categories.map((category) => {
           const classes = `rounded-[80px] ${bgColor(category)} ${txtColor(
@@ -64,7 +64,7 @@ const FeaturedBuddiesCard = (props) => {
           )} mr-2 font-Epilogue font-semibold text-sm`;
           return (
             <CategoryContainer key={category} className={classes}>
-              {category}
+              {category[0].toUpperCase() + category.substr(1)}
             </CategoryContainer>
           );
         })}
