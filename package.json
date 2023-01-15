@@ -20,6 +20,7 @@
     "react-dom": "^18.2.0",
     "react-github-calendar": "^3.4.0",
     "react-icons": "^4.4.0",
+    "react-loading-skeleton": "^3.1.0",
     "react-redux": "^8.0.5",
     "react-select": "^5.7.0",
     "react-spinners": "^0.13.6",

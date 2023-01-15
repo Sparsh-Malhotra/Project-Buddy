@@ -14,8 +14,10 @@ import Button from "../components/common/Button";
 import CategoryCard from "../components/home/CategoryCard";
 import FeaturedBuddiesCard from "../components/home/FeaturedBuddiesCard";
 import Footer from "../components/common/Footer";
+import Skeleton from "react-loading-skeleton";
 
 import styles from "../styles/Home.module.css";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const OuterContainer = styled.div``;
 
@@ -231,7 +233,7 @@ const Home = (props) => {
           </div>
         </div>
         <div className='flex justify-evenly items-center flex-wrap'>
-          {categories &&
+          {categories ? (
             Object.values(categories).map((category) => (
               <CategoryCard
                 key={category.id}
@@ -239,7 +241,19 @@ const Home = (props) => {
                 name={category.name}
                 count={category.count}
               />
-            ))}
+            ))
+          ) : (
+            <div className='flex justify-evenly items-center flex-wrap self-start my-3'>
+              <Skeleton width={"230px"} height={"180px"} />
+              <Skeleton width={"230px"} height={"180px"} />
+              <Skeleton width={"230px"} height={"180px"} />
+              <Skeleton width={"230px"} height={"180px"} />
+              <Skeleton width={"230px"} height={"180px"} />
+              <Skeleton width={"230px"} height={"180px"} />
+              <Skeleton width={"230px"} height={"180px"} />
+              <Skeleton width={"230px"} height={"180px"} />
+            </div>
+          )}
         </div>
         <div className='flex justify-between items-center pt-[38px]'>
           <p className='text-5xl text-Primary-title font-ClashDisplay font-semibold'>
@@ -251,7 +265,7 @@ const Home = (props) => {
           </div>
         </div>
         <div className='flex justify-evenly items-center flex-wrap'>
-          {featuredBuddies &&
+          {featuredBuddies ? (
             featuredBuddies.map((buddy) => (
               <FeaturedBuddiesCard
                 key={buddy.userId}
@@ -265,7 +279,19 @@ const Home = (props) => {
                 // about={buddy.about}
                 categories={[buddy.techStack]}
               />
-            ))}
+            ))
+          ) : (
+            <div className='flex justify-evenly items-center flex-wrap my-3'>
+              <Skeleton width={"186px"} height={"186px"} />
+              <Skeleton width={"186px"} height={"186px"} />
+              <Skeleton width={"186px"} height={"186px"} />
+              <Skeleton width={"186px"} height={"186px"} />
+              <Skeleton width={"186px"} height={"186px"} />
+              <Skeleton width={"186px"} height={"186px"} />
+              <Skeleton width={"186px"} height={"186px"} />
+              <Skeleton width={"186px"} height={"186px"} />
+            </div>
+          )}
         </div>
       </BodyContainer>
       <Footer />
