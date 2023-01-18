@@ -253,6 +253,10 @@ const OneLastStep = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const toggleCheck = () => setIsChecked((prevState) => !prevState);
 
   const onFormSubmit = async () => {

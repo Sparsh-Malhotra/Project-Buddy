@@ -298,8 +298,8 @@ const UserProfile = () => {
                     </div>
                     <div className='flex items-center px-5'>
                       <div className='overflow-hidden rounded-[50%] relative bottom-12'>
-                        <Image
-                          src='https://i.pravatar.cc/140'
+                        <img
+                          src={userDetails.avatar_url}
                           width='140'
                           height='140'
                           className='border-[6px] rounded-[50%] border-[white]'
