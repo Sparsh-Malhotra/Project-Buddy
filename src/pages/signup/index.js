@@ -4,12 +4,14 @@ import { Link } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 import { updateAppState } from "../../actions/index";
 import Button from "../../components/common/Button";
 import { registerUser } from "../../services/auth";
 import { login } from "../../actions/index";
 import ModalComponent from "../../components/common/modal";
+import { auth } from "../../utils/firebase";
 
 const OuterContainer = styled.div`
   display: flex;
@@ -73,6 +75,8 @@ const Signup = () => {
 
   const appState = useSelector((state) => state.app.appState);
 
+  const googleProvider = new GoogleAuthProvider();
+
   useEffect(() => {
     if (appState === "LOGGED_IN") {
       router.replace("/");
@@ -100,6 +104,15 @@ const Signup = () => {
       .finally(() => setIsLoading(false));
   };
 
+  const googleSignUp = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log(result)
+    } catch (e) {
+      console.err(e);
+    }
+  };
+
   return (
     <OuterContainer>
       <LeftContainer>
@@ -124,6 +137,7 @@ const Signup = () => {
             color='#4640DE'
             borderColor='#CCCCF5'
             className='py-3 w-full flex justify-center items-center mb-6'
+            onClick={googleSignUp}
           >
             <Image
               src='/static/images/signup/google.svg'
