@@ -40,3 +40,19 @@ a {
   border: 1px solid #d6ddeb;
   border-radius: 0px;
 }
+
+.collapse-container > .nextui-collapse-view {
+  padding:0 !important;
+  margin-bottom:1rem;
+}
+
+
+.checkbox{
+  margin:0;
+}
+
+.checkbox>span{
+  font-size:1rem;
+  font-weight:400;
+  font-family:Epilogue,sans-serif;
+}

@@ -114,7 +114,9 @@ const Home = (props) => {
                 width={32}
                 height={32}
               ></Image>
-              <p className='ml-2 font-RedHatDisplay text-title'>ProjectBuddy</p>
+              <p className='ml-2 font-RedHatDisplay text-title text-Primary-title'>
+                ProjectBuddy
+              </p>
             </div>
             <div className='flex items-center justify-between flex-1 pt-[0.875rem]'>
               {user.authToken && user.authToken.length > 0 ? (

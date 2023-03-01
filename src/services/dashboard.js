@@ -34,3 +34,20 @@ export function fetchDetails(authToken) {
         return error.response.data;
     });
 }
+
+export function getAllBuddies(authToken,params) {
+  return axios
+    .get(`${config.apiBaseUrl}/dashboard/get-buddies`, {
+      headers: {
+        "auth-token": authToken,
+      },
+      params,
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      if (error.response.data && error.response.data.message === "error")
+        return error.response.data;
+    });
+}

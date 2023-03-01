@@ -181,13 +181,15 @@ const UserProfile = () => {
                     width='32'
                     height='32'
                   />
-                  <p></p>
                   <p className='font-RedHatDisplay text-2xl text-Primary-subtitle2 ml-4 font-bold'>
                     Project Buddy
                   </p>
                 </div>
                 <div>
-                  <div className='flex items-center ml-8 mb-2 cursor-pointer'>
+                  <Link
+                    href='/browse-buddies'
+                    className='flex items-center ml-8 mb-2 cursor-pointer'
+                  >
                     <Image
                       src='/static/images/dashboard/sidebar/buddies.svg'
                       width='24'
@@ -196,7 +198,7 @@ const UserProfile = () => {
                     <p className='font-Inter text-base font-medium text-Primary-subtitle ml-2'>
                       Browse Buddies
                     </p>
-                  </div>
+                  </Link>
                   <div className='flex '>
                     <div className='w-1 h-8 bg-Primary'></div>
                     <div className='flex justify-center items-center ml-4 bg-[#E9EBFD] px-3 cursor-pointer'>

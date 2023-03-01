@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import ClipLoader from "react-spinners/ClipLoader";
+import { Button as NextButton } from "@nextui-org/react";
 
-const OuterContainer = styled.button`
+const OuterContainer = styled(NextButton)`
   background-color: ${(props) =>
     props.bgColor ? `${props.bgColor}` : "white"};
 
@@ -10,6 +11,7 @@ const OuterContainer = styled.button`
   text-align: center;
   border: ${(props) =>
     props.borderColor ? `1px solid ${props.borderColor}` : "none"};
+  border-radius: 0;
 `;
 
 const Button = (props) => {
