@@ -15,6 +15,7 @@ import LoadingComponent from "../../components/common/LoadingComponent";
 import { skillsArray, techStackOptions } from "../../constants";
 import { getAllBuddies } from "../../services/dashboard";
 import { useSelector } from "react-redux";
+import LottieAnimation from "../../components/common/LottieAnimation";
 
 const OuterContainer = styled.div`
   display: flex;
@@ -58,7 +59,7 @@ const StyledAsyncSelect = styled(AsyncSelect)`
 `;
 
 const FilterContainer = styled.div`
-  width: 18vw;
+  width: 20vw;
   padding: 1.5rem 1rem;
   height: 100%;
 `;
@@ -401,7 +402,15 @@ const BrowseBuddies = () => {
                 <LoadingComponent />
               </div>
             ) : (
-              buddies && (
+              buddies &&
+              (buddies.length === 0 ? (
+                <div className='h-[80%]'>
+                  <LottieAnimation />
+                  <p className='text-center text-lg font-semibold font-Epilogue text-Primary-title'>
+                    No Buddies Found
+                  </p>
+                </div>
+              ) : (
                 <>
                   <p className='text-2xl font-ClashDisplay font-semibold text-Primary-title'>
                     All Buddies
@@ -414,13 +423,13 @@ const BrowseBuddies = () => {
                       <DashboardBuddyCard buddy={buddy} key={buddy._id} />
                     ))}
                   </div>
+                  <PaginationComponent
+                    totalPages={totalPages}
+                    onPageChange={onPageChange}
+                  />
                 </>
-              )
+              ))
             )}
-            <PaginationComponent
-              totalPages={totalPages}
-              onPageChange={onPageChange}
-            />
           </DataContainer>
         </div>
       </MainContainer>

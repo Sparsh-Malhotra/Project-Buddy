@@ -49,6 +49,7 @@ a {
 
 .checkbox{
   margin:0;
+  display:flex;
 }
 
 .checkbox>span{
