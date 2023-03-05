@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Button from "../common/Button";
 import { Avatar } from "@nextui-org/react";
+import { FaUserAlt } from "react-icons/fa";
 
 const CardContainer = styled.div`
   padding: 1rem;
@@ -41,7 +42,7 @@ const DashboardBuddyCard = ({ buddy }) => {
   return (
     <CardContainer>
       <div className='flex items-center'>
-        <Avatar text='John' size='xl' />
+        <Avatar icon={<FaUserAlt />} size='xl' />
         <div className='ml-3 self-start'>
           <p className='text-base font-Epilogue font-semibold text-Primary-title'>
             {buddy?.firstName + " " + buddy?.lastName}

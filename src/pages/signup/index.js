@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Image from "next/image";
-import { Link } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -181,9 +180,12 @@ const Signup = () => {
           </Button>
           <div className='flex text-[#202430] font-Epilogue'>
             Already have an account?{" "}
-            <Link href='/login'>
-              <span className='text-Primary ml-2 font-semibold'>Login</span>
-            </Link>
+            <span
+              className='text-Primary ml-2 font-semibold'
+              onClick={() => router.push("/login")}
+            >
+              Login
+            </span>
           </div>
         </div>
       </RightContainer>

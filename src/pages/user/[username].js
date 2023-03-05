@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
 import Button from "../../components/common/Button";
-import { Link } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
@@ -166,6 +165,86 @@ const UserProfile = () => {
 
   return (
     <OuterContainer>
+      <SideBarContainer>
+        <div className='pb-10 border-b border-[#CCCCF5]'>
+          <div className='flex items-center mb-8 mt-4 pl-4'>
+            <Image
+              src='/static/images/common/logo.svg'
+              width='32'
+              height='32'
+            />
+            <p className='font-RedHatDisplay text-2xl text-Primary-subtitle2 ml-4 font-bold'>
+              Project Buddy
+            </p>
+          </div>
+          <div>
+            <div
+              className='flex items-center ml-8 mb-2 cursor-pointer'
+              onClick={() => router.push("/browse-buddies")}
+            >
+              <Image
+                src='/static/images/dashboard/sidebar/buddies.svg'
+                width='24'
+                height='24'
+              />
+              <p className='font-Inter text-base font-medium text-Primary-subtitle ml-2'>
+                Browse Buddies
+              </p>
+            </div>
+            <div className='flex '>
+              <div className='w-1 h-8 bg-Primary'></div>
+              <div className='flex justify-center items-center ml-4 bg-[#E9EBFD] px-3 cursor-pointer'>
+                <Image
+                  src='/static/images/dashboard/sidebar/user-profile.svg'
+                  width='24'
+                  height='24'
+                />
+                <p className='font-Inter text-base font-medium text-Primary-subtitle ml-2'>
+                  My Public Profile
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='pt-10 ml-8'>
+          <p className='text-Primary-subtitle2 font-Inter font-semibold text-sm uppercase mb-8'>
+            Settings
+          </p>
+          <div className='flex mb-2 cursor-pointer'>
+            <Image
+              src='/static/images/dashboard/sidebar/settings.svg'
+              width='24'
+              height='24'
+            />
+            <p className='text-Primary-subtitle text-base font-medium font-Inter ml-2'>
+              Settings
+            </p>
+          </div>
+          <div className='flex cursor-pointer'>
+            <Image
+              src='/static/images/dashboard/sidebar/help-center.svg'
+              width='24'
+              height='24'
+            />
+            <p className='text-Primary-subtitle text-base font-medium font-Inter ml-2'>
+              Help Center
+            </p>
+          </div>
+        </div>
+        <Button
+          color='#FF6550'
+          borderColor='#CCCCF5'
+          className='flex px-4 py-2 mt-8 mx-2'
+          onClick={() => logoutHandler()}
+        >
+          <Image
+            src='/static/images/dashboard/sidebar/logout.svg'
+            width='24'
+            height='24'
+          />
+          <p className='font-Epilogue text-base font-medium ml-2'>Logout</p>
+        </Button>
+      </SideBarContainer>
       {loading ? (
         <div className='w-screen h-screen'>
           <LoadingComponent />
@@ -173,88 +252,6 @@ const UserProfile = () => {
       ) : (
         userDetails && (
           <>
-            <SideBarContainer>
-              <div className='pb-10 border-b border-[#CCCCF5]'>
-                <div className='flex items-center mb-8 mt-4 pl-4'>
-                  <Image
-                    src='/static/images/common/logo.svg'
-                    width='32'
-                    height='32'
-                  />
-                  <p className='font-RedHatDisplay text-2xl text-Primary-subtitle2 ml-4 font-bold'>
-                    Project Buddy
-                  </p>
-                </div>
-                <div>
-                  <Link
-                    href='/browse-buddies'
-                    className='flex items-center ml-8 mb-2 cursor-pointer'
-                  >
-                    <Image
-                      src='/static/images/dashboard/sidebar/buddies.svg'
-                      width='24'
-                      height='24'
-                    />
-                    <p className='font-Inter text-base font-medium text-Primary-subtitle ml-2'>
-                      Browse Buddies
-                    </p>
-                  </Link>
-                  <div className='flex '>
-                    <div className='w-1 h-8 bg-Primary'></div>
-                    <div className='flex justify-center items-center ml-4 bg-[#E9EBFD] px-3 cursor-pointer'>
-                      <Image
-                        src='/static/images/dashboard/sidebar/user-profile.svg'
-                        width='24'
-                        height='24'
-                      />
-                      <p className='font-Inter text-base font-medium text-Primary-subtitle ml-2'>
-                        My Public Profile
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className='pt-10 ml-8'>
-                <p className='text-Primary-subtitle2 font-Inter font-semibold text-sm uppercase mb-8'>
-                  Settings
-                </p>
-                <div className='flex mb-2 cursor-pointer'>
-                  <Image
-                    src='/static/images/dashboard/sidebar/settings.svg'
-                    width='24'
-                    height='24'
-                  />
-                  <p className='text-Primary-subtitle text-base font-medium font-Inter ml-2'>
-                    Settings
-                  </p>
-                </div>
-                <div className='flex cursor-pointer'>
-                  <Image
-                    src='/static/images/dashboard/sidebar/help-center.svg'
-                    width='24'
-                    height='24'
-                  />
-                  <p className='text-Primary-subtitle text-base font-medium font-Inter ml-2'>
-                    Help Center
-                  </p>
-                </div>
-                <Button
-                  color='#FF6550'
-                  borderColor='#CCCCF5'
-                  className='flex px-4 py-2 mt-8'
-                  onClick={() => logoutHandler()}
-                >
-                  <Image
-                    src='/static/images/dashboard/sidebar/logout.svg'
-                    width='24'
-                    height='24'
-                  />
-                  <p className='font-Epilogue text-base font-medium ml-2'>
-                    Logout
-                  </p>
-                </Button>
-              </div>
-            </SideBarContainer>
             <MainContainer>
               {/* <div className='flex items-center justify-between p-4 border-b border-boxCard'>
                 <p className='text-Primary-title text-3xl font-ClashDisplay font-semibold'>

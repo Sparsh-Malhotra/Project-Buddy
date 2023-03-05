@@ -1,28 +1,17 @@
-import { useEffect, useState, useRef } from "react";
+import Lottie from "react-lottie";
+import animationData from "/public/static/images/common/empty-ghost.json";
 
 const LottieAnimation = () => {
-  const ref = useRef(null);
-  const [lottie, setLottie] = useState(null);
-
-  useEffect(() => {
-    import("lottie-web").then((Lottie) => setLottie(Lottie.default));
-  }, []);
-
-  useEffect(() => {
-    if (lottie && ref.current) {
-      const animation = lottie.loadAnimation({
-        container: ref.current,
-        renderer: "svg",
+  return (
+    <Lottie
+      className='h-full'
+      options={{
         loop: true,
         autoplay: true,
-        path: "/static/images/common/empty-ghost.json",
-      });
-
-      return () => animation.destroy();
-    }
-  }, [lottie]);
-
-  return <div className='h-full' ref={ref} />;
+        animationData: animationData,
+      }}
+    />
+  );
 };
 
 export default LottieAnimation;

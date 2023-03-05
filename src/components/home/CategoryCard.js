@@ -18,9 +18,9 @@ const CardContainer = styled.div`
 `;
 
 const CategoryCard = (props) => {
-  const { id, name, count } = props;
+  const { id, name, count, onClick } = props;
   return (
-    <CardContainer className='group'>
+    <CardContainer className='group' onClick={onClick}>
       <img
         src={`/static/images/common/categories/${id}.svg`}
         alt='category-img'

@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Link } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { logout, updateAppState } from "../actions/index";
@@ -9,6 +8,7 @@ import styled from "styled-components";
 import { FiSearch } from "react-icons/fi";
 import { BsArrowRight } from "react-icons/bs";
 import { getConsole } from "../services/home";
+import { useRouter } from "next/router";
 
 import Button from "../components/common/Button";
 import CategoryCard from "../components/home/CategoryCard";
@@ -81,11 +81,13 @@ const BodyContainer = styled.div`
 `;
 
 const Home = (props) => {
-  //   const { categories } = props;
   const [categories, setCategories] = useState(null);
   const [featuredBuddies, setFeaturedBuddies] = useState(null);
+  const [searchString, setSearchString] = useState("");
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const router=useRouter();
 
   useEffect(() => {
     fetchConsoleData();
@@ -107,7 +109,7 @@ const Home = (props) => {
       <Header>
         <NavContainer>
           <div className='flex justify-between items-center'>
-            <div className='flex flex-[3.5] pt-[1.3rem]'>
+            <div className='flex flex-[3] pt-[1.3rem]'>
               <Image
                 src='/static/images/common/logo.svg'
                 alt='logo'
@@ -118,11 +120,11 @@ const Home = (props) => {
                 ProjectBuddy
               </p>
             </div>
-            <div className='flex items-center justify-between flex-1 pt-[0.875rem]'>
+            <div className='flex items-center justify-between pt-[0.875rem] flex-[2]'>
               {user.authToken && user.authToken.length > 0 ? (
                 <>
-                  <p className='font-Epilogue font-bold py-2 px-6 w-full'>
-                    Hello {user.name}
+                  <p className='font-Epilogue font-bold px-6 w-full'>
+                    Hello, {user.name}
                   </p>
                   <Button
                     bgColor='#4640DE'
@@ -137,24 +139,22 @@ const Home = (props) => {
                 </>
               ) : (
                 <>
-                  <Link href='/login'>
-                    <Button
-                      bgColor='#F8F8FD'
-                      color='#4640DE'
-                      className='font-Epilogue font-bold py-2 px-6'
-                    >
-                      Login
-                    </Button>
-                  </Link>
+                  <Button
+                    bgColor='#F8F8FD'
+                    color='#4640DE'
+                    className='font-Epilogue font-bold py-2 px-6'
+                    onClick={() => router.push("/login")}
+                  >
+                    Login
+                  </Button>
                   <Seperator className='mx-4 my-4 ml-0'></Seperator>
-                  <Link href='/signup'>
-                    <Button
-                      bgColor='#4640DE'
-                      className='font-Epilogue font-bold py-2 px-6'
-                    >
-                      Sign Up
-                    </Button>
-                  </Link>
+                  <Button
+                    bgColor='#4640DE'
+                    className='font-Epilogue font-bold py-2 px-6'
+                    onClick={() => router.push("/signup")}
+                  >
+                    Sign Up
+                  </Button>
                 </>
               )}
             </div>
@@ -193,10 +193,20 @@ const Home = (props) => {
                 type='text'
                 placeholder='Role / Tech Stack'
                 className='pb-2'
+                onChange={(e) => setSearchString(e.target.value)}
               />
               <Button
                 bgColor='#4640DE'
                 className='py-2 px-12 ml-4 mb-1 text-lg font-Epilogue font-semibold'
+                onClick={() =>
+                  router.push(
+                    {
+                      pathname: "/browse-buddies",
+                      query: { searchString: searchString },
+                    },
+                    "/browse-buddies"
+                  )
+                }
               >
                 Search
               </Button>
@@ -207,14 +217,6 @@ const Home = (props) => {
             </p>
           </HeaderLeft>
           <HeaderRight>
-            {/* <div className="relative z-[2]">
-              <Image
-                src='/static/images/home/header-image.png'
-                alt='temp-image'
-                width={501}
-                height={707}
-              />
-            </div> */}
             <img
               src='/static/images/home/header-patterns.svg'
               alt='pattern'
@@ -229,19 +231,24 @@ const Home = (props) => {
           <p className='text-5xl text-Primary-title font-ClashDisplay font-semibold'>
             Explore by <span className='text-Primary-highlight'>category</span>
           </p>
-          <div className='flex justify-center items-center text-center text-Primary text-base font-Epilogue font-semibold cursor-pointer'>
-            <span className='mr-4'>Show all categories</span>
-            <BsArrowRight style={{ width: "1.5rem", height: "1.5rem" }} />
-          </div>
         </div>
         <div className='flex justify-evenly items-center flex-wrap'>
           {categories ? (
-            Object.values(categories).map((category) => (
+            Object.entries(categories).map(([key, value]) => (
               <CategoryCard
-                key={category.id}
-                id={category.id}
-                name={category.name}
-                count={category.count}
+                key={value.id}
+                id={value.id}
+                name={value.name}
+                count={value.count}
+                onClick={() =>
+                  router.push(
+                    {
+                      pathname: "/browse-buddies",
+                      query: { techStack: key },
+                    },
+                    "/browse-buddies"
+                  )
+                }
               />
             ))
           ) : (
@@ -261,7 +268,10 @@ const Home = (props) => {
           <p className='text-5xl text-Primary-title font-ClashDisplay font-semibold'>
             Featured <span className='text-Primary-highlight'>buddies</span>
           </p>
-          <div className='flex justify-center items-center text-center text-Primary text-base font-Epilogue font-semibold cursor-pointer'>
+          <div
+            className='flex justify-center items-center text-center text-Primary text-base font-Epilogue font-semibold cursor-pointer'
+            onClick={() => router.push("/browse-buddies")}
+          >
             <span className='mr-4'>Show all buddies</span>
             <BsArrowRight style={{ width: "1.5rem", height: "1.5rem" }} />
           </div>

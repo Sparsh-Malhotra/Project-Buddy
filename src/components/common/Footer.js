@@ -46,9 +46,6 @@ const Footer = () => {
               <FooterLink href='/login'>Login</FooterLink>
             </li>
             <li>
-              <FooterLink href='/'>Explore by Category</FooterLink>
-            </li>
-            <li>
               <FooterLink href='/'>Featured Buddies</FooterLink>
             </li>
           </ul>

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Image from "next/image";
-import { Link } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,7 +57,6 @@ const StyledInputBox = styled.input`
   }
 `;
 
-const StyledCheckbox = styled.div``;
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -178,14 +176,16 @@ const Login = () => {
             loading={isLoading}
           >
             Continue
-            <Link href='/one-last-step'></Link>
           </Button>
 
           <div className='flex text-[#202430] font-Epilogue'>
             Dont have an account?{" "}
-            <Link href='/signup'>
-              <span className='text-Primary ml-2 font-semibold'>Sign Up</span>
-            </Link>
+            <span
+              className='text-Primary ml-2 font-semibold'
+              onClick={() => router.push("/signup")}
+            >
+              Sign Up
+            </span>
           </div>
         </div>
       </RightContainer>

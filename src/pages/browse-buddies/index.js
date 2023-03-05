@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
 import Button from "../../components/common/Button";
-import { Link } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import DashboardBuddyCard from "../../components/dashboard/DashboardBuddyCard";
 import PaginationComponent from "../../components/dashboard/PaginationComponent";
@@ -14,8 +13,10 @@ import { getStates } from "../../services/common";
 import LoadingComponent from "../../components/common/LoadingComponent";
 import { skillsArray, techStackOptions } from "../../constants";
 import { getAllBuddies } from "../../services/dashboard";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import LottieAnimation from "../../components/common/LottieAnimation";
+import { useRouter } from "next/router";
+import { logout, updateAppState } from "../../actions";
 
 const OuterContainer = styled.div`
   display: flex;
@@ -89,24 +90,34 @@ const BrowseBuddies = () => {
   const [buddies, setBuddies] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
   const [totalBuddies, setTotalBuddies] = useState(0);
-  const [filters, setFilters] = useState({ searchString: "", location: "" });
+  
+  const router = useRouter();
+  const { searchString, techStack } = router.query;
+
+  const [filters, setFilters] = useState({
+    searchString: searchString ?? "",
+    location: "",
+  });
+
   const [params, setParams] = useState({
     page: 1,
-    searchString: "",
-    techStack: "",
+    searchString: searchString ?? "",
+    techStack: techStack ?? "",
     location: "",
     skill: "",
   });
 
   const user = useSelector((state) => state.user);
 
-  useEffect(() => {
-    fetchBuddies();
-  }, [params]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchStates();
   }, []);
+
+  useEffect(() => {
+    fetchBuddies();
+  }, [params]);
 
   const fetchStates = () => {
     getStates()
@@ -158,6 +169,12 @@ const BrowseBuddies = () => {
     setParams((prev) => ({ ...prev, ...filters }));
   };
 
+  const logoutHandler = () => {
+    dispatch(logout());
+    dispatch(updateAppState("LOGGED_OUT"));
+    router.push("/");
+  };
+
   return (
     <OuterContainer>
       <SideBarContainer>
@@ -175,20 +192,23 @@ const BrowseBuddies = () => {
           <div>
             <div className='flex '>
               <div className='w-1 h-8 bg-Primary'></div>
-              <Link className='flex justify-center items-center ml-4 bg-[#E9EBFD] px-3 cursor-pointer'>
+              <div className='flex justify-center items-center ml-4 bg-[#E9EBFD] px-3 mb-2 cursor-pointer'>
                 <Image
                   src='/static/images/dashboard/sidebar/buddies.svg'
                   width='24'
                   height='24'
                 />
                 <p className='font-Inter text-base font-medium text-Primary-subtitle ml-2'>
-                  Featured Buddies
+                  Browse Buddies
                 </p>
-              </Link>
+              </div>
             </div>
-            <Link
-              href='/browse-buddies'
+            <div
               className='flex items-center ml-8 mb-2 cursor-pointer'
+              onClick={() => {
+                const name = user.name.toLowerCase().replace(" ", "-");
+                router.push(`/user/${name}`);
+              }}
             >
               <Image
                 src='/static/images/dashboard/sidebar/user-profile.svg'
@@ -198,7 +218,7 @@ const BrowseBuddies = () => {
               <p className='font-Inter text-base font-medium text-Primary-subtitle ml-2'>
                 My Public Profile
               </p>
-            </Link>
+            </div>
           </div>
         </div>
         <div className='pt-10 ml-8'>
@@ -225,20 +245,20 @@ const BrowseBuddies = () => {
               Help Center
             </p>
           </div>
-          <Button
-            color='#FF6550'
-            borderColor='#CCCCF5'
-            className='flex px-4 py-2 mt-8'
-            onClick={() => logoutHandler()}
-          >
-            <Image
-              src='/static/images/dashboard/sidebar/logout.svg'
-              width='24'
-              height='24'
-            />
-            <p className='font-Epilogue text-base font-medium ml-2'>Logout</p>
-          </Button>
         </div>
+        <Button
+          color='#FF6550'
+          borderColor='#CCCCF5'
+          className='flex px-4 py-2 mt-8 mx-2'
+          onClick={() => logoutHandler()}
+        >
+          <Image
+            src='/static/images/dashboard/sidebar/logout.svg'
+            width='24'
+            height='24'
+          />
+          <p className='font-Epilogue text-base font-medium ml-2'>Logout</p>
+        </Button>
       </SideBarContainer>
       <MainContainer>
         <div className='p-4 flex justify-between items-center'>
@@ -249,6 +269,7 @@ const BrowseBuddies = () => {
             color='#4640DE'
             borderColor='#CCCCF5'
             className='py-2 px-3 font-Epilogue text-base font-semibold'
+            onClick={() => router.push("/")}
           >
             Back to Homepage
           </Button>
@@ -326,6 +347,7 @@ const BrowseBuddies = () => {
                   value={ele.value}
                   color='primary'
                   className='checkbox'
+                  isSelected={ele.value === params.techStack}
                   onChange={(checked) => {
                     if (checked)
                       setParams((prev) => ({

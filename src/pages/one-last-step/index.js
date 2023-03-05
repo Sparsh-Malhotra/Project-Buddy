@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Image from "next/image";
-import { Link } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
