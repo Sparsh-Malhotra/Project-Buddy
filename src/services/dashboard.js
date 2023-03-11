@@ -19,6 +19,24 @@ export function submitDetails(body, authToken) {
     });
 }
 
+export function updateDetails(body, id, authToken) {
+  return axios
+    .patch(`${config.apiBaseUrl}/dashboard/submit-details/${id}`, body, {
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": authToken,
+      },
+    })
+    .then((response) => {
+      console.log(response);
+      return response.data;
+    })
+    .catch((error) => {
+      if (error.response.data && error.response.data.message === "error")
+        return error.response.data;
+    });
+}
+
 export function fetchDetails(authToken) {
   return axios
     .get(`${config.apiBaseUrl}/dashboard/get-details`, {

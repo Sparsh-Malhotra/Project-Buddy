@@ -122,19 +122,6 @@ const Login = () => {
           <div className='text-Primary-title font-ClashDisplay text-3xl font-semibold text-center mb-6'>
             Welcome Back
           </div>
-          <Button
-            color='#4640DE'
-            borderColor='#CCCCF5'
-            className='py-3 w-full flex justify-center items-center mb-6'
-          >
-            <Image
-              src='/static/images/signup/google.svg'
-              alt='google'
-              width={20}
-              height={20}
-            ></Image>
-            <p className='ml-2.5 font-Epilogue font-bold'>Login with Google</p>
-          </Button>
           <div className='relative flex items-center mb-6'>
             <div
               className='flex-grow border-t'
@@ -144,7 +131,7 @@ const Login = () => {
               className='flex-shrink mx-4 font-Epilogue'
               style={{ color: "#202430" }}
             >
-              Or login up with email
+              Login up with email
             </span>
             <div
               className='flex-grow border-t'

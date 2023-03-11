@@ -119,21 +119,7 @@ const Signup = () => {
           <div className='text-Primary-title font-ClashDisplay text-3xl font-semibold text-center mb-6'>
             Find your Project Partner
           </div>
-          <Button
-            color='#4640DE'
-            borderColor='#CCCCF5'
-            className='py-3 w-full flex justify-center items-center mb-6'
-          >
-            <Image
-              src='/static/images/signup/google.svg'
-              alt='google'
-              width={20}
-              height={20}
-            ></Image>
-            <p className='ml-2.5 font-Epilogue font-bold'>
-              Sign up with Google
-            </p>
-          </Button>
+          
           <div className='relative flex items-center mb-6'>
             <div
               className='flex-grow border-t'
@@ -143,7 +129,7 @@ const Signup = () => {
               className='flex-shrink mx-4 font-Epilogue'
               style={{ color: "#202430" }}
             >
-              Or sign up with email
+              Sign up with email
             </span>
             <div
               className='flex-grow border-t'

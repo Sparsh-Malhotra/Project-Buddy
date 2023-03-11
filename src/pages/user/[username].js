@@ -287,14 +287,7 @@ const UserProfile = () => {
                         paddingTop: "8px",
                         paddingRight: "8px",
                       }}
-                    >
-                      <Image
-                        src='/static/images/common/edit.svg'
-                        width='36'
-                        height='36'
-                        className='ml-auto'
-                      />
-                    </div>
+                    ></div>
                     <div className='flex items-center px-5'>
                       <div className='overflow-hidden rounded-[50%] relative bottom-12'>
                         <img
@@ -310,7 +303,9 @@ const UserProfile = () => {
                             {user.name}
                           </p>
                           <p className='font-Epilogue text-lg text-Primary-subtitle'>
-                            Student
+                            {userDetails.category === "student"
+                              ? "Student"
+                              : "Professional"}
                           </p>
                           <div className='flex items-center'>
                             <Image
@@ -345,15 +340,7 @@ const UserProfile = () => {
                       />
                     </div>
                     <p className='font-Epilogue text-base text-[#515B6F] mt-5'>
-                      I’m a product designer + filmmaker currently working
-                      remotely at Twitter from beautiful Manchester, United
-                      Kingdom. I’m passionate about designing digital products
-                      that have a positive impact on the world.
-                      <br />
-                      For 10 years, I’ve specialised in interface, experience &
-                      interaction design as well as working in user research and
-                      product strategy for product agencies, big tech companies
-                      & start-ups.
+                      {userDetails.about}
                     </p>
                   </BoxContainer>
                   <BoxContainer className='p-4'>
@@ -361,19 +348,11 @@ const UserProfile = () => {
                       <p className='font-Epilogue font-semibold text-xl text-Primary-subtitle2'>
                         Skills
                       </p>
-                      <div className='flex'>
-                        <Image
-                          src='/static/images/common/add-primary.svg'
-                          width='32'
-                          height='32'
-                          className='mr-2'
-                        />
-                        <Image
-                          src='/static/images/common/edit-primary.svg'
-                          width='32'
-                          height='32'
-                        />
-                      </div>
+                      <Image
+                        src='/static/images/common/edit-primary.svg'
+                        width='32'
+                        height='32'
+                      />
                     </div>
                     <div className='flex items-center justify-between flex-wrap mt-5'>
                       {userDetails.skills &&

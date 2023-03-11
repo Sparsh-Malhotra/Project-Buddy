@@ -62,10 +62,6 @@ const StyledSelect = styled(Select)`
   margin-bottom: 1.375rem;
   margin-right: 1.375rem;
   outline: none;
-  &::placeholder {
-    color: #a8adb7;
-    font-family: "Epilogue", "sans-serif";
-  }
 `;
 
 const StyledAsyncSelect = styled(AsyncSelect)`
@@ -74,10 +70,6 @@ const StyledAsyncSelect = styled(AsyncSelect)`
   margin-bottom: 1.375rem;
   margin-right: 1.375rem;
   outline: none;
-  &::placeholder {
-    color: #a8adb7;
-    font-family: "Epilogue", "sans-serif";
-  }
 `;
 
 const Step1Content = ({ onChangeHandler }) => {
@@ -141,6 +133,13 @@ const Step1Content = ({ onChangeHandler }) => {
           placeholder='Gender*'
           options={genderOptions}
           onChange={(e) => onChangeHandler("gender", e.value)}
+          styles={{
+            placeholder: (baseStyles, state) => ({
+              ...baseStyles,
+              color: "#a8adb7",
+              fontFamily: '"Epilogue", "sans-serif"',
+            }),
+          }}
         ></StyledSelect>
         <StyledInputBox
           id='university'
@@ -161,6 +160,13 @@ const Step1Content = ({ onChangeHandler }) => {
           defaultOptions={statesOptions ? statesOptions : null}
           cacheOptions
           onChange={(e) => onChangeHandler("state", e.value)}
+          styles={{
+            placeholder: (baseStyles, state) => ({
+              ...baseStyles,
+              color: "#a8adb7",
+              fontFamily: '"Epilogue", "sans-serif"',
+            }),
+          }}
         ></StyledAsyncSelect>
       </div>
     </FormContainer>
@@ -177,6 +183,13 @@ const Step2Content = ({ onChangeHandler }) => {
           className='react-select'
           placeholder='Preferred Tech Stack*'
           onChange={(e) => onChangeHandler("techStack", e.value)}
+          styles={{
+            placeholder: (baseStyles, state) => ({
+              ...baseStyles,
+              color: "#a8adb7",
+              fontFamily: '"Epilogue", "sans-serif"',
+            }),
+          }}
         ></StyledSelect>
         <StyledSelect
           id='skills'
@@ -185,6 +198,13 @@ const Step2Content = ({ onChangeHandler }) => {
           options={skillsArray}
           placeholder='Skills*'
           onChange={(e) => onChangeHandler("skills", e)}
+          styles={{
+            placeholder: (baseStyles, state) => ({
+              ...baseStyles,
+              color: "#a8adb7",
+              fontFamily: '"Epilogue", "sans-serif"',
+            }),
+          }}
         ></StyledSelect>
         <StyledInputBox
           id='linkedin'
@@ -215,6 +235,46 @@ const Step2Content = ({ onChangeHandler }) => {
   );
 };
 
+const Step3Content = ({ onChangeHandler }) => {
+  return (
+    <FormContainer>
+      <div className='flex flex-col justify-center items-start mt-8'>
+        <p className='text-lg mb-3 font-Epilogue text-Primary-title'>
+          Are you a Student or Professional ?
+        </p>
+        <StyledSelect
+          id='category'
+          className='react-select'
+          options={[
+            { label: "Student", value: "student" },
+            { label: "Profession", value: "professional" },
+          ]}
+          styles={{
+            container: (baseStyles, state) => ({
+              ...baseStyles,
+              width: "100%",
+            }),
+            placeholder: (baseStyles, state) => ({
+              ...baseStyles,
+              color: "#a8adb7",
+              fontFamily: '"Epilogue", "sans-serif"',
+            }),
+          }}
+          onChange={(e) => onChangeHandler("category", e.value)}
+        ></StyledSelect>
+        <p className='text-lg my-3 font-Epilogue text-Primary-title'>
+          Tell us something about yourself
+        </p>
+        <textarea
+          rows={3}
+          className='w-full border border-[#e3e3e3] px-4 py-2'
+          onChange={(e) => onChangeHandler("about", e.target.value)}
+        ></textarea>
+      </div>
+    </FormContainer>
+  );
+};
+
 const OneLastStep = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -229,6 +289,8 @@ const OneLastStep = () => {
   const [github, setGithub] = useState("");
   const [twitter, setTwitter] = useState("");
   const [dribble, setDribble] = useState("");
+  const [category, setCategory] = useState("");
+  const [about, setAbout] = useState("");
 
   const [modalDetails, setModalDetails] = useState({
     showModal: false,
@@ -254,6 +316,8 @@ const OneLastStep = () => {
       skills,
       linkedin,
       github,
+      category,
+      about,
     };
     const res = await submitDetails(body, user.authToken);
     if (res.message === "Success") {
@@ -294,7 +358,6 @@ const OneLastStep = () => {
         break;
       case "linkedin":
         setLinkedin(payload);
-        // console.log(payload);
         break;
       case "github":
         setGithub(payload);
@@ -305,8 +368,15 @@ const OneLastStep = () => {
       case "dribble":
         setDribble(payload);
         break;
+      case "category":
+        setCategory(payload);
+        break;
+      case "about":
+        setAbout(payload);
     }
   };
+
+  console.log(about);
 
   return (
     <OuterContainer>
@@ -325,19 +395,16 @@ const OneLastStep = () => {
             onSubmit={onFormSubmit}
             steps={[
               {
-                label: "Step 1",
                 name: "step 1",
-                content: (
-                  <Step1Content
-                    onChangeHandler={onChangeHandler}
-                    // states={statesOptions}
-                  />
-                ),
+                content: <Step1Content onChangeHandler={onChangeHandler} />,
               },
               {
-                label: "Step 2",
                 name: "step 2",
                 content: <Step2Content onChangeHandler={onChangeHandler} />,
+              },
+              {
+                name: "step 3",
+                content: <Step3Content onChangeHandler={onChangeHandler} />,
               },
             ]}
           />
