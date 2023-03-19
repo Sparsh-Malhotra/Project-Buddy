@@ -99,15 +99,16 @@ const BrowseBuddies = () => {
     location: "",
   });
 
+  const user = useSelector((state) => state.user);
+
   const [params, setParams] = useState({
     page: 1,
     searchString: searchString ?? "",
     techStack: techStack ?? "",
     location: "",
     skill: "",
+    userId: user.userId,
   });
-
-  const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
