@@ -8,7 +8,7 @@ import { Checkbox } from "@nextui-org/react";
 import Button from "../../components/common/Button";
 import { loginUser } from "../../services/auth";
 import { login, updateAppState } from "../../actions/index";
-import ModalComponent from "../../components/common/modal";
+import ModalComponent from "../../components/common/ErrorModal";
 
 const OuterContainer = styled.div`
   display: flex;
@@ -131,7 +131,7 @@ const Login = () => {
               className='flex-shrink mx-4 font-Epilogue'
               style={{ color: "#202430" }}
             >
-              Login up with email
+              Login with email
             </span>
             <div
               className='flex-grow border-t'

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Button from "../common/Button";
 import { Avatar } from "@nextui-org/react";
 import { FaUserAlt } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 const CardContainer = styled.div`
   padding: 1rem;
@@ -39,18 +40,19 @@ const txtColor = (category) => {
 };
 
 const DashboardBuddyCard = ({ buddy }) => {
+  const router = useRouter();
   return (
     <CardContainer>
-      <div className='flex items-center'>
-        <Avatar icon={<FaUserAlt />} size='xl' />
-        <div className='ml-3 self-start'>
-          <p className='text-base font-Epilogue font-semibold text-Primary-title'>
+      <div className="flex items-center">
+        <Avatar icon={<FaUserAlt />} size="xl" />
+        <div className="ml-3 self-start">
+          <p className="text-base font-Epilogue font-semibold text-Primary-title">
             {buddy?.firstName + " " + buddy?.lastName}
           </p>
-          <p className='text-sm font-Epilogue text-Primary-subtitle'>
+          <p className="text-sm font-Epilogue text-Primary-subtitle">
             {buddy?.state}
           </p>
-          <div className='flex items-center mt-1'>
+          <div className="flex items-center mt-1">
             <div
               className={`rounded-[80px] ${bgColor(
                 buddy?.techStack
@@ -65,8 +67,9 @@ const DashboardBuddyCard = ({ buddy }) => {
         </div>
       </div>
       <Button
-        bgColor='#4640DE'
-        className='py-2 px-5 font-Epilogue font-medium text-sm self-start'
+        bgColor="#4640DE"
+        className="py-2 px-5 font-Epilogue font-medium text-sm self-start"
+        onClick={() => router.push(`browse-buddies/${buddy?.userId}`)}
       >
         Connect
       </Button>

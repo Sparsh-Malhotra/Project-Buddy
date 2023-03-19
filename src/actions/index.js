@@ -23,3 +23,12 @@ export function updateAppState(state) {
     },
   };
 }
+
+export function setUserID(userID){
+  return {
+    type: "SET_USER_ID",
+    payload: {
+      userID,
+    },
+  };
+}

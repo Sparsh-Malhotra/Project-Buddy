@@ -69,3 +69,19 @@ export function getAllBuddies(authToken,params) {
         return error.response.data;
     });
 }
+
+export function getBuddyById(authToken, id) {
+  return axios
+    .get(`${config.apiBaseUrl}/dashboard/${id}`, {
+      headers: {
+        "auth-token": authToken,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      if (error.response.data && error.response.data.message === "error")
+        return error.response.data;
+    });
+}

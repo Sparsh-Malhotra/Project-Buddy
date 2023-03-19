@@ -4,11 +4,10 @@ import Button from "../../components/common/Button";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { logout, updateAppState, setUserID } from "../../actions";
-import { fetchDetails, updateDetails } from "../../services/dashboard";
+import { logout, updateAppState } from "../../actions";
+import { getBuddyById } from "../../services/dashboard";
 import GitHubCalendar from "react-github-calendar";
 import LoadingComponent from "../../components/common/LoadingComponent";
-import EditDetailsModal from "../../components/dashboard/EditDetailsModal";
 
 const OuterContainer = styled.div`
   display: flex;
@@ -50,33 +49,32 @@ const skills = [
 
 const UserProfile = () => {
   const [userDetails, setUserDetails] = useState(null);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [modalKey, setModalKey] = useState("");
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(true);
 
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const router = useRouter();
 
   useEffect(() => {
-    fetchUserDetails();
-  }, []);
+    if (router.isReady) {
+      const { buddy } = router.query;
+      fetchUserDetails(buddy);
+    }
+  }, [router.isReady]);
 
   useEffect(() => {
     if (userDetails) setLoading(false);
   }, [userDetails]);
 
-  const fetchUserDetails = async () => {
-    setLoading(true);
-    const res = await fetchDetails(user.authToken);
+  const fetchUserDetails = async (buddy) => {
+    const res = await getBuddyById(user.authToken, buddy);
     setUserDetails(res.data);
-    dispatch(setUserID(res.data.userId));
   };
 
   const renderSkills = (skill) => {
     return (
-      <div className='bg-BgColor px-2 py-1 mr-1 mb-3'>
-        <p className='font-Epilogue text-base text-Primary '>{skill}</p>
+      <div className="bg-BgColor px-2 py-1 mr-1 mb-3">
+        <p className="font-Epilogue text-base text-Primary ">{skill}</p>
       </div>
     );
   };
@@ -85,76 +83,76 @@ const UserProfile = () => {
     switch (key) {
       case "github":
         return (
-          <div className='flex items-center mt-3'>
+          <div className="flex items-center mt-3">
             <Image
-              src='/static/images/common/social/github.svg'
-              width='24'
-              height='24'
-              className='self-start'
+              src="/static/images/common/social/github.svg"
+              width="24"
+              height="24"
+              className="self-start"
             />
-            <div className='ml-2'>
-              <p className='font-Epilogue text-base text-Primary-subtitle'>
+            <div className="ml-2">
+              <p className="font-Epilogue text-base text-Primary-subtitle">
                 Github
               </p>
               <a href={val}>
-                <p className='font-Epilogue text-base text-Primary'>{val}</p>
+                <p className="font-Epilogue text-base text-Primary">{val}</p>
               </a>
             </div>
           </div>
         );
       case "twitter":
         return (
-          <div className='flex items-center mt-3'>
+          <div className="flex items-center mt-3">
             <Image
-              src='/static/images/common/social/twitter.svg'
-              width='24'
-              height='24'
-              className='self-start'
+              src="/static/images/common/social/twitter.svg"
+              width="24"
+              height="24"
+              className="self-start"
             />
-            <div className='ml-2'>
-              <p className='font-Epilogue text-base text-Primary-subtitle'>
+            <div className="ml-2">
+              <p className="font-Epilogue text-base text-Primary-subtitle">
                 Twitter
               </p>
               <a href={val}>
-                <p className='font-Epilogue text-base text-Primary'>{val}</p>
+                <p className="font-Epilogue text-base text-Primary">{val}</p>
               </a>
             </div>
           </div>
         );
       case "linkedin":
         return (
-          <div className='flex items-center mt-3'>
+          <div className="flex items-center mt-3">
             <Image
-              src='/static/images/common/social/linkedin.svg'
-              width='24'
-              height='24'
-              className='self-start'
+              src="/static/images/common/social/linkedin.svg"
+              width="24"
+              height="24"
+              className="self-start"
             />
-            <div className='ml-2'>
-              <p className='font-Epilogue text-base text-Primary-subtitle'>
+            <div className="ml-2">
+              <p className="font-Epilogue text-base text-Primary-subtitle">
                 LinkedIn
               </p>
               <a href={val}>
-                <p className='font-Epilogue text-base text-Primary'>{val}</p>
+                <p className="font-Epilogue text-base text-Primary">{val}</p>
               </a>
             </div>
           </div>
         );
       case "dribble":
         return (
-          <div className='flex items-center mt-3'>
+          <div className="flex items-center mt-3">
             <Image
-              src='/static/images/common/social/dribble.svg'
-              width='24'
-              height='24'
-              className='self-start'
+              src="/static/images/common/social/dribble.svg"
+              width="24"
+              height="24"
+              className="self-start"
             />
-            <div className='ml-2'>
-              <p className='font-Epilogue text-base text-Primary-subtitle'>
+            <div className="ml-2">
+              <p className="font-Epilogue text-base text-Primary-subtitle">
                 Dribble
               </p>
               <a href={val}>
-                <p className='font-Epilogue text-base text-Primary'>{val}</p>
+                <p className="font-Epilogue text-base text-Primary">{val}</p>
               </a>
             </div>
           </div>
@@ -166,13 +164,6 @@ const UserProfile = () => {
     dispatch(logout());
     dispatch(updateAppState("LOGGED_OUT"));
     router.push("/");
-  };
-
-  const onConfirm = async (updatedValue) => {
-    if(updatedValue.skills){
-      updatedValue = updatedValue.skills.map((skill) => skill.value);
-    }
-    const res = await updateDetails(updatedValue, user.userId, user.authToken);
   };
 
   return (
@@ -190,31 +181,34 @@ const UserProfile = () => {
             </p>
           </div>
           <div>
-            <div
-              className="flex items-center ml-8 mb-2 cursor-pointer"
-              onClick={() => router.push("/browse-buddies")}
-            >
-              <Image
-                src="/static/images/dashboard/sidebar/buddies.svg"
-                width="24"
-                height="24"
-              />
-              <p className="font-Inter text-base font-medium text-Primary-subtitle ml-2">
-                Browse Buddies
-              </p>
-            </div>
             <div className="flex ">
               <div className="w-1 h-8 bg-Primary"></div>
-              <div className="flex justify-center items-center ml-4 bg-[#E9EBFD] px-3 cursor-pointer">
+              <div className="flex justify-center items-center ml-4 bg-[#E9EBFD] px-3 mb-2 cursor-pointer">
                 <Image
-                  src="/static/images/dashboard/sidebar/user-profile.svg"
+                  src="/static/images/dashboard/sidebar/buddies.svg"
                   width="24"
                   height="24"
                 />
                 <p className="font-Inter text-base font-medium text-Primary-subtitle ml-2">
-                  My Public Profile
+                  Browse Buddies
                 </p>
               </div>
+            </div>
+            <div
+              className="flex items-center ml-8 mb-2 cursor-pointer"
+              onClick={() => {
+                const name = user.name.toLowerCase().replace(" ", "-");
+                router.push(`/user/${name}`);
+              }}
+            >
+              <Image
+                src="/static/images/dashboard/sidebar/user-profile.svg"
+                width="24"
+                height="24"
+              />
+              <p className="font-Inter text-base font-medium text-Primary-subtitle ml-2">
+                My Public Profile
+              </p>
             </div>
           </div>
         </div>
@@ -312,7 +306,7 @@ const UserProfile = () => {
                       <div className="flex justify-between w-full">
                         <div className="ml-10">
                           <p className="font-ClashDisplay text-2xl text-Primary-subtitle2 font-semibold">
-                            {user.name}
+                            {userDetails.firstName + " " + userDetails.lastName}
                           </p>
                           <p className="font-Epilogue text-lg text-Primary-subtitle">
                             {userDetails.category === "student"
@@ -330,17 +324,6 @@ const UserProfile = () => {
                             </p>
                           </div>
                         </div>
-                        <Button
-                          color="#4640DE"
-                          borderColor="#CCCCF5"
-                          className="px-3 py-2 font-Epilogue font-bold text-base self-start mt-2"
-                          onClick={() => {
-                            setShowEditModal(true);
-                            setModalKey("profile");
-                          }}
-                        >
-                          Edit Profile
-                        </Button>
                       </div>
                     </div>
                   </BoxContainer>
@@ -349,16 +332,6 @@ const UserProfile = () => {
                       <p className="font-Epilogue font-semibold text-xl text-Primary-subtitle2">
                         About me
                       </p>
-                      <Image
-                        src="/static/images/common/edit-primary.svg"
-                        width="32"
-                        height="32"
-                        className="cursor-pointer"
-                        onClick={() => {
-                          setShowEditModal(true);
-                          setModalKey("about");
-                        }}
-                      />
                     </div>
                     <p className="font-Epilogue text-base text-[#515B6F] mt-5">
                       {userDetails.about}
@@ -369,16 +342,6 @@ const UserProfile = () => {
                       <p className="font-Epilogue font-semibold text-xl text-Primary-subtitle2">
                         Skills
                       </p>
-                      <Image
-                        src="/static/images/common/edit-primary.svg"
-                        width="32"
-                        height="32"
-                        className="cursor-pointer"
-                        onClick={() => {
-                          setShowEditModal(true);
-                          setModalKey("skills");
-                        }}
-                      />
                     </div>
                     <div className="flex items-center justify-between flex-wrap mt-5">
                       {userDetails.skills &&
@@ -408,16 +371,6 @@ const UserProfile = () => {
                       <p className="font-Epilogue font-semibold text-xl text-Primary-subtitle2">
                         Additional Details
                       </p>
-                      <Image
-                        src="/static/images/common/edit-primary.svg"
-                        width="32"
-                        height="32"
-                        className="cursor-pointer"
-                        onClick={() => {
-                          setShowEditModal(true);
-                          setModalKey("additional-details");
-                        }}
-                      />
                     </div>
                     <div className="mt-5">
                       <div className="flex items-center">
@@ -432,7 +385,7 @@ const UserProfile = () => {
                             Email
                           </p>
                           <p className="font-Epilogue text-base text-Primary-title">
-                            {user.email}
+                            {userDetails.email}
                           </p>
                         </div>
                       </div>
@@ -459,16 +412,6 @@ const UserProfile = () => {
                       <p className="font-Epilogue font-semibold text-xl text-Primary-subtitle2">
                         Social Links
                       </p>
-                      <Image
-                        src="/static/images/common/edit-primary.svg"
-                        width="32"
-                        height="32"
-                        className="cursor-pointer"
-                        onClick={() => {
-                          setShowEditModal(true);
-                          setModalKey("social");
-                        }}
-                      />
                     </div>
                     <div className="mt-2">
                       {Object.entries(userDetails).map(renderSocials)}
@@ -477,12 +420,6 @@ const UserProfile = () => {
                 </RightPane>
               </div>
             </MainContainer>
-            <EditDetailsModal
-              showModal={showEditModal}
-              onCloseModal={() => setShowEditModal(false)}
-              modalKey={modalKey}
-              onConfirm={onConfirm}
-            />
           </>
         )
       )}

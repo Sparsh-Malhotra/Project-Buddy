@@ -8,7 +8,7 @@ import { updateAppState } from "../../actions/index";
 import Button from "../../components/common/Button";
 import { registerUser } from "../../services/auth";
 import { login } from "../../actions/index";
-import ModalComponent from "../../components/common/modal";
+import ModalComponent from "../../components/common/ErrorModal";
 
 const OuterContainer = styled.div`
   display: flex;

@@ -8,7 +8,7 @@ import AsyncSelect from "react-select/async";
 
 import { submitDetails } from "../../services/dashboard";
 import { updateAppState } from "../../actions/index";
-import ModalComponent from "../../components/common/modal";
+import ModalComponent from "../../components/common/ErrorModal";
 
 import StepProgressBar from "react-step-progress";
 import "react-step-progress/dist/index.css";
