@@ -380,7 +380,7 @@ const UserProfile = () => {
                         }}
                       />
                     </div>
-                    <div className="flex items-center justify-between flex-wrap mt-5">
+                    <div className="flex items-center gap-4 flex-wrap mt-5">
                       {userDetails.skills &&
                         userDetails.skills.map(renderSkills)}
                     </div>

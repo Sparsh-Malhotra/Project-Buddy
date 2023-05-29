@@ -88,6 +88,7 @@ const Home = (props) => {
   const dispatch = useDispatch();
 
   const router=useRouter();
+  const appState = useSelector((state) => state.app.appState);
 
   useEffect(() => {
     fetchConsoleData();
@@ -199,13 +200,15 @@ const Home = (props) => {
                 bgColor='#4640DE'
                 className='py-2 px-12 ml-4 mb-1 text-lg font-Epilogue font-semibold'
                 onClick={() =>
-                  router.push(
-                    {
-                      pathname: "/browse-buddies",
-                      query: { searchString: searchString },
-                    },
-                    "/browse-buddies"
-                  )
+                  appState === "LOGGED_OUT"
+                    ? router.push("/login")
+                    : router.push(
+                        {
+                          pathname: "/browse-buddies",
+                          query: { searchString: searchString },
+                        },
+                        "/browse-buddies"
+                      )
                 }
               >
                 Search
@@ -241,13 +244,15 @@ const Home = (props) => {
                 name={value.name}
                 count={value.count}
                 onClick={() =>
-                  router.push(
-                    {
-                      pathname: "/browse-buddies",
-                      query: { techStack: key },
-                    },
-                    "/browse-buddies"
-                  )
+                  appState === "LOGGED_OUT"
+                    ? router.push("/login")
+                    : router.push(
+                        {
+                          pathname: "/browse-buddies",
+                          query: { techStack: key },
+                        },
+                        "/browse-buddies"
+                      )
                 }
               />
             ))
@@ -270,7 +275,11 @@ const Home = (props) => {
           </p>
           <div
             className='flex justify-center items-center text-center text-Primary text-base font-Epilogue font-semibold cursor-pointer'
-            onClick={() => router.push("/browse-buddies")}
+            onClick={() =>
+              appState === "LOGGED_OUT"
+                ? router.push("/login")
+                : router.push("/browse-buddies")
+            }
           >
             <span className='mr-4'>Show all buddies</span>
             <BsArrowRight style={{ width: "1.5rem", height: "1.5rem" }} />

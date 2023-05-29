@@ -247,7 +247,7 @@ const Step3Content = ({ onChangeHandler }) => {
           className='react-select'
           options={[
             { label: "Student", value: "student" },
-            { label: "Profession", value: "professional" },
+            { label: "Professional", value: "professional" },
           ]}
           styles={{
             container: (baseStyles, state) => ({
@@ -375,8 +375,6 @@ const OneLastStep = () => {
         setAbout(payload);
     }
   };
-
-  console.log(about);
 
   return (
     <OuterContainer>

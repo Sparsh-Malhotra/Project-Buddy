@@ -20,6 +20,9 @@ const bgColor = (category) => {
 
     case "frontend":
       return "bg-[#56CDAD]/10";
+    
+    case "fullstack":
+        return "bg-[#4640DE]/10"
   }
 };
 
@@ -30,6 +33,9 @@ const txtColor = (category) => {
 
     case "frontend":
       return "text-[#56CDAD]";
+
+    case "fullstack":
+      return "text-[#4640DE]"
   }
 };
 

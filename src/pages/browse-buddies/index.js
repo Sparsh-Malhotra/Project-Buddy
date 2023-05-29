@@ -112,6 +112,7 @@ const BrowseBuddies = () => {
 
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     fetchStates();
   }, []);
